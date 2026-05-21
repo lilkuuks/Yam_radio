@@ -1,0 +1,101 @@
+
+<style>
+  .radio-wrap {
+    font-family: var(--font-sans);
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+  }
+  .radio-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+  .radio-header {
+    background: #e81e4d;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .radio-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  .radio-title { color: #fff; font-size: 18px; font-weight: 500; margin: 0; }
+  .radio-subtitle { color: rgba(255,255,255,0.75); font-size: 13px; margin: 2px 0 0; }
+  .live-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: #fff;
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .player-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .cstrEmbed { width: 100%; }
+  .cstrEmbed a { display: none; }
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-top: 1rem;
+  }
+</style>
+
+<h2 class="sr-only">YAM Live Radio — embedded streaming player powered by Caster.fm</h2>
+
+<div class="radio-wrap">
+  <div class="radio-card">
+    <div class="radio-header">
+      <div class="radio-logo">YAM</div>
+      <div>
+        <p class="radio-title">YAM Live Radio</p>
+        <p class="radio-subtitle">Streaming live for you</p>
+      </div>
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        LIVE
+      </div>
+    </div>
+    <div class="player-body">
+      <div data-type="newStreamPlayer"
+           data-publicToken="37c249e6-f867-4f01-932d-bd42f18a8ea7"
+           data-theme="light"
+           data-color="e81e4d"
+           data-channelId="a1d4dc80-e7f5-49b7-9e30-6c8460bd77a5"
+           data-rendered="false"
+           class="cstrEmbed">
+        <a href="https://www.caster.fm">Shoutcast Hosting</a>
+        <a href="https://www.caster.fm">Stream Hosting</a>
+        <a href="https://www.caster.fm">Radio Server Hosting</a>
+      </div>
+    </div>
+  </div>
+  <p class="footer-note">Powered by Caster.fm · YAM Live Radio</p>
+</div>
+
+<script src="https://cdn.cloud.caster.fm/widgets/embed.js"></script>
