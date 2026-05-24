@@ -11,15 +11,15 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --red: #e81e4d;
-      --red-dark: #b01438;
-      --red-glow: rgba(232,30,77,0.18);
-      --black: #0d0d0d;
-      --dark: #141414;
-      --card: #1a1a1a;
-      --border: rgba(255,255,255,0.07);
-      --text: #f0f0f0;
-      --muted: rgba(255,255,255,0.45);
+      --red: #8B5A3C;
+      --red-dark: #6B4423;
+      --red-glow: rgba(139,90,60,0.18);
+      --black: #FAFAFA;
+      --dark: #F5F5F5;
+      --card: #FFFFFF;
+      --border: rgba(0,0,0,0.08);
+      --text: #2C2C2C;
+      --muted: rgba(0,0,0,0.55);
     }
 
     html { scroll-behavior: smooth; }
@@ -53,16 +53,21 @@
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(13,13,13,0.92);
+      background: rgba(250,250,250,0.92);
       backdrop-filter: blur(12px);
       z-index: 100;
     }
 
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 3px;
-      color: var(--red);
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
     }
 
     .nav-links {
@@ -250,6 +255,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
     .player-top {
@@ -262,7 +268,7 @@
 
     .player-icon {
       width: 44px; height: 44px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.25);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Bebas Neue', sans-serif;
@@ -277,7 +283,7 @@
     .player-live-tag {
       margin-left: auto;
       display: flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.25);
       padding: 5px 12px;
       border-radius: 20px;
       font-size: 11px; font-weight: 500;
@@ -488,10 +494,15 @@
     }
 
     .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      letter-spacing: 3px;
-      color: var(--red);
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .footer-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
     }
 
     .footer-links { display: flex; gap: 1.5rem; list-style: none; }
@@ -525,7 +536,7 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">YAM</div>
+    <div class="nav-logo"><img src="Assets/YAM.png" alt="YAM Logo"></div>
     <ul class="nav-links">
       <li><a href="#sunday">Sunday Service</a></li>
       <li><a href="#programs">Programs</a></li>
@@ -693,7 +704,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">YAM</div>
+    <div class="footer-logo"><img src="Assets/YAM.png" alt="YAM Logo"></div>
     <ul class="footer-links">
       <li><a href="#">Facebook</a></li>
       <li><a href="#">Instagram</a></li>
