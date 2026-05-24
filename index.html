@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YAM - Youth Alive Meets | The Exemplary Youths</title>
+  <link rel="icon" type="image/png" href="Assets/YAM.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
@@ -335,102 +336,7 @@
       50%      { height: 30px; opacity: 0.85; }
     }
 
-    /* STATS */
-    .stats-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
 
-    .stat-item {
-      padding: 2rem 1.5rem;
-      border-right: 1px solid var(--border);
-      text-align: center;
-    }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 46px;
-      color: var(--red);
-      line-height: 1;
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 6px;
-      display: block;
-    }
-
-    /* SCHEDULE */
-    .section { padding: 5rem 2.5rem; }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
-      letter-spacing: 1px;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .schedule-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .show-card {
-      background: var(--dark);
-      padding: 1.5rem;
-      transition: background 0.2s;
-    }
-
-    .show-card:hover { background: var(--card); }
-
-    .show-card.now-on { border-top: 2px solid var(--red); }
-
-    .show-time {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 8px;
-    }
-
-    .show-name { font-size: 17px; font-weight: 500; margin-bottom: 4px; }
-    .show-host { font-size: 13px; color: var(--muted); font-style: italic; }
-
-    .show-tag {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      background: rgba(232,30,77,0.12);
-      color: var(--red);
-      padding: 3px 9px;
-      border-radius: 3px;
-    }
 
     /* ABOUT */
     .about-section {
@@ -522,7 +428,6 @@
         padding: 3rem 1.5rem;
       }
       .hero-left { padding: 3rem 1.5rem; }
-      .stats-strip { grid-template-columns: repeat(2, 1fr); }
       .about-section { grid-template-columns: 1fr; gap: 2rem; }
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
@@ -544,7 +449,7 @@
     </ul>
     <div class="nav-live">
       <span class="pulse-dot"></span>
-      Sunday 10 AM
+      Sunday 6:30 AM
     </div>
   </nav>
 
@@ -560,7 +465,7 @@
       <p class="hero-desc">We are young people who have been made alive by the Word of God through the Holy Spirit. Join us for Sunday fellowship, spiritual growth, and community that transforms lives.</p>
       <div class="hero-actions">
         <a href="#sunday" class="btn-primary">▶&nbsp; Join Sunday Service</a>
-        <a href="#programs" class="btn-ghost">View Programs</a>
+        <!-- <a href="#programs" class="btn-ghost">View Programs</a> -->
       </div>
     </div>
 
@@ -572,7 +477,7 @@
             <div class="player-icon">🙏</div>
             <div class="player-station">
               <strong>YAM Sunday Service</strong>
-              <small>Every Sunday 10 AM</small>
+              <small>Every Sunday 6:30 AM</small>
             </div>
             <div class="player-live-tag">
               <span class="dot-white"></span>
@@ -601,72 +506,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-strip">
-    <div class="stat-item">
-      <span class="stat-num">500+</span>
-      <span class="stat-label">Active Members</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">Every Sunday</span>
-      <span class="stat-label">Fellowship Time</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">∞</span>
-      <span class="stat-label">Grace of God</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">1 Body</span>
-      <span class="stat-label">In Christ Jesus</span>
-    </div>
-  </div>
-
-  <!-- PROGRAMS -->
-  <section class="section" id="programs">
-    <div class="section-header">
-      <h2 class="section-title">Our Weekly Programs</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="schedule-grid">
-      <div class="show-card now-on">
-        <div class="show-time">Every Sunday</div>
-        <div class="show-name">Main Service</div>
-        <div class="show-host">10:00 AM - Fellowship & Worship</div>
-        <span class="show-tag">Worship</span>
-      </div>
-      <div class="show-card">
-        <div class="show-time">Sunday Evening</div>
-        <div class="show-name">Youth Fellowship</div>
-        <div class="show-host">6:00 PM - Connection & Growth</div>
-        <span class="show-tag">Community</span>
-      </div>
-      <div class="show-card">
-        <div class="show-time">Wednesday</div>
-        <div class="show-name">Bible Study</div>
-        <div class="show-host">7:00 PM - Deeper Dive</div>
-        <span class="show-tag">Teaching</span>
-      </div>
-      <div class="show-card">
-        <div class="show-time">Friday</div>
-        <div class="show-name">Prayer Night</div>
-        <div class="show-host">8:00 PM - Intercession</div>
-        <span class="show-tag">Prayer</span>
-      </div>
-      <div class="show-card">
-        <div class="show-time">Saturday</div>
-        <div class="show-name">Outreach & Service</div>
-        <div class="show-host">Various Times - Making Impact</div>
-        <span class="show-tag">Service</span>
-      </div>
-      <div class="show-card">
-        <div class="show-time">Monthly</div>
-        <div class="show-name">Leaders' Meeting</div>
-        <div class="show-host">Strategy & Vision Alignment</div>
-        <span class="show-tag">Leadership</span>
       </div>
     </div>
   </section>
