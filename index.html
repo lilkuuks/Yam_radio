@@ -186,6 +186,37 @@
   /* ---- Bind the Media Session to the widget's audio element ---- */
   var currentAudio = null;
 
+  // The user's *intent*: true once they start playback, false only when
+  // THEY deliberately pause/stop. An OS interruption (another app/tab
+  // grabbing audio focus, a phone call, etc.) pauses the element WITHOUT
+  // changing this flag — that is how we know to auto-resume afterwards.
+  var intendPlaying = false;
+  var resumeTimer = null;
+
+  function setPlaybackState(state) {
+    // Never use 'none' — that drops us from the notification shade. While
+    // interrupted we stay 'paused' so the YAM card + controls remain.
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = state;
+  }
+
+  function stopResumeLoop() {
+    if (resumeTimer) { clearInterval(resumeTimer); resumeTimer = null; }
+  }
+
+  // Keep retrying to resume while the user still wants playback but the
+  // element is paused (i.e. another audio source interrupted us). Once
+  // that source releases audio focus, play() finally sticks and we're back.
+  function startResumeLoop(audio) {
+    if (resumeTimer) return;
+    var tries = 0;
+    resumeTimer = setInterval(function () {
+      if (!intendPlaying) { stopResumeLoop(); return; }
+      if (!audio.paused) { stopResumeLoop(); return; }   // we're back
+      if (++tries > 120) { stopResumeLoop(); return; }    // give up after ~3 min
+      audio.play().catch(function () { /* focus still held elsewhere */ });
+    }, 1500);
+  }
+
   function bindAudio(audio) {
     if (!audio || audio.__yamBound) return;
     audio.__yamBound = true;
@@ -196,24 +227,49 @@
     try { audio.preload = 'none'; } catch (e) {}
 
     audio.addEventListener('play', function () {
+      intendPlaying = true;
+      stopResumeLoop();
       setMediaMetadata();
-      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+      setPlaybackState('playing');
       requestWakeLock();
     });
 
     audio.addEventListener('pause', function () {
-      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
       releaseWakeLock();
+      // Stay visible in the notification regardless of why we paused.
+      setPlaybackState('paused');
+      // If the user did NOT ask to pause, this is an interruption from
+      // another audio source — keep the metadata and try to resume.
+      if (intendPlaying) {
+        setMediaMetadata();
+        startResumeLoop(audio);
+      }
     });
+
+    // The widget's own play/pause button doesn't route through our Media
+    // Session handlers, so treat any click inside the player as the user's
+    // authoritative intent: whatever state it lands in is what they wanted.
+    var embed = document.querySelector('.player-embed') || document;
+    embed.addEventListener('click', function () {
+      setTimeout(function () {
+        intendPlaying = !audio.paused;
+        if (!intendPlaying) stopResumeLoop();
+      }, 200);
+    }, true);
 
     if ('mediaSession' in navigator) {
       navigator.mediaSession.setActionHandler('play', function () {
+        intendPlaying = true;
         audio.play().catch(function () {});
       });
       navigator.mediaSession.setActionHandler('pause', function () {
+        intendPlaying = false;        // deliberate pause — do NOT auto-resume
+        stopResumeLoop();
         audio.pause();
       });
       navigator.mediaSession.setActionHandler('stop', function () {
+        intendPlaying = false;
+        stopResumeLoop();
         audio.pause();
       });
       // Live stream: seeking is meaningless, disable to avoid OS scrub bar.
