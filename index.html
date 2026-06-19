@@ -556,5 +556,111 @@
 </div>
 
 <script src="//cdn.cloud.caster.fm/widgets/embed.js"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Background / lock-screen audio support for the Caster.fm player.
+
+   The embed widget injects its own <audio> element. We wait for it,
+   then wire up the Media Session API so the OS recognises this as a
+   media session and keeps it playing on lock screen / background tab,
+   with play/pause controls in the notification shade.
+
+   Wake Lock is added as a best-effort screen-on helper while the tab
+   is visible (it is auto-released by the browser once the tab hides,
+   so it is NOT what keeps audio alive in the background — Media
+   Session is).
+---------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  var artworkUrl = new URL('Assets/YAM.png', location.href).href;
+
+  function setMediaMetadata() {
+    if (!('mediaSession' in navigator)) return;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: 'YAM Sunday Service',
+      artist: 'Youth Alive Meets · Live',
+      album: 'YAM Live Radio',
+      artwork: [
+        { src: artworkUrl, sizes: '256x256', type: 'image/png' },
+        { src: artworkUrl, sizes: '512x512', type: 'image/png' }
+      ]
+    });
+  }
+
+  /* ---- Wake Lock (screen-on while visible; optional nicety) ---- */
+  var wakeLock = null;
+  async function requestWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', function () { wakeLock = null; });
+    } catch (e) { /* user gesture / permission may be required; ignore */ }
+  }
+  function releaseWakeLock() {
+    if (wakeLock) { wakeLock.release().catch(function () {}); wakeLock = null; }
+  }
+  // Re-acquire when the user returns to the tab while playing.
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && currentAudio && !currentAudio.paused) {
+      requestWakeLock();
+    }
+  });
+
+  /* ---- Bind the Media Session to the widget's audio element ---- */
+  var currentAudio = null;
+
+  function bindAudio(audio) {
+    if (!audio || audio.__yamBound) return;
+    audio.__yamBound = true;
+    currentAudio = audio;
+
+    // Help mobile browsers keep the stream alive in the background.
+    audio.setAttribute('playsinline', '');
+    try { audio.preload = 'none'; } catch (e) {}
+
+    audio.addEventListener('play', function () {
+      setMediaMetadata();
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+      requestWakeLock();
+    });
+
+    audio.addEventListener('pause', function () {
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+      releaseWakeLock();
+    });
+
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', function () {
+        audio.play().catch(function () {});
+      });
+      navigator.mediaSession.setActionHandler('pause', function () {
+        audio.pause();
+      });
+      navigator.mediaSession.setActionHandler('stop', function () {
+        audio.pause();
+      });
+      // Live stream: seeking is meaningless, disable to avoid OS scrub bar.
+      ['seekbackward', 'seekforward', 'seekto', 'previoustrack', 'nexttrack']
+        .forEach(function (action) {
+          try { navigator.mediaSession.setActionHandler(action, null); } catch (e) {}
+        });
+    }
+  }
+
+  /* The widget renders asynchronously; poll for its <audio> element. */
+  var attempts = 0;
+  var poll = setInterval(function () {
+    var audio = document.querySelector('audio');
+    if (audio) {
+      clearInterval(poll);
+      bindAudio(audio);
+    } else if (++attempts > 60) {        // ~30s give-up
+      clearInterval(poll);
+    }
+  }, 500);
+})();
+</script>
 </body>
 </html>
