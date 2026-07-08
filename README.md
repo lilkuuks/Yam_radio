@@ -14,21 +14,22 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **Hero section** with a one-click _"Join Sunday Service"_ call-to-action that scrolls straight to the player.
 - **About / mission** section describing the fellowship and what members can expect.
 - **Animated waveform & live indicator** for a polished, on-air feel.
-- **Responsive, single-file design** — no build step, no dependencies to install.
+- **Responsive static design** — no build step, no dependencies to install.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
 
 ## Project structure
 
 ```
 radio_yam/
-├── index.html      # The entire site (markup, styles, and player embed)
+├── index.html      # Site markup and player embed
+├── styles.css      # Site styling and responsive layout
 ├── Assets/
 │   └── YAM.png     # Logo / favicon
 ├── LICENSE         # MIT License
 └── README.md
 ```
 
-> The whole site lives in [`index.html`](index.html) — HTML, CSS, and the stream embed are all inline. The only external runtime dependencies are Google Fonts and the caster.fm player widget, both loaded over CDN.
+> The site is built from [`index.html`](index.html) and [`styles.css`](styles.css). The only external runtime dependencies are Google Fonts and the caster.fm player widget, both loaded over CDN.
 
 ## Getting started
 
