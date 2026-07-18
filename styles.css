@@ -14,6 +14,10 @@
 
 html { scroll-behavior: smooth; }
 
+#sunday,
+#programs,
+#about { scroll-margin-top: 80px; }
+
 body {
     background: var(--black);
     color: var(--text);
@@ -327,6 +331,66 @@ body::before {
 
 
 
+    /* PROGRAMS */
+    .programs-section {
+      padding: 5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .section-heading { max-width: 560px; margin-bottom: 2.5rem; }
+
+    .section-kicker,
+    .program-number {
+      color: var(--red);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      line-height: 1;
+      letter-spacing: 1px;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .section-heading > p:last-child,
+    .program-card > p:last-of-type {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .program-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      background: var(--dark);
+    }
+
+    .program-card h3 {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    .program-card a {
+      color: var(--red-dark);
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 1.25rem;
+      text-underline-offset: 3px;
+    }
+
     /* ABOUT */
     .about-section {
       padding: 5rem 2.5rem;
@@ -417,6 +481,8 @@ body::before {
         padding: 3rem 1.5rem;
       }
       .hero-left { padding: 3rem 1.5rem; }
+      .programs-section { padding: 3rem 1.5rem; }
+      .program-grid { grid-template-columns: 1fr; }
       .about-section { grid-template-columns: 1fr; gap: 2rem; }
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }

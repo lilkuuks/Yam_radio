@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#8B5A3C" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="YAM Radio" />
+  <meta name="description" content="Listen to the YAM Sunday Service and grow with Youth Alive Meets." />
   <title>YAM - Youth Alive Meets | The Exemplary Youths</title>
+  <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/png" href="Assets/YAM.png" />
+  <link rel="apple-touch-icon" href="Assets/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.cloud.caster.fm" crossorigin />
+  <link rel="preconnect" href="https://widgets.cloud.caster.fm" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 
 </head>
@@ -16,7 +25,7 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo"><img src="Assets/YAM.png" alt="YAM Logo"></div>
+    <div class="nav-logo"><img src="Assets/YAM.png" alt="YAM Logo" fetchpriority="high" decoding="async"></div>
     <ul class="nav-links">
       <li><a href="#sunday">Sunday Service</a></li>
       <li><a href="#programs">Programs</a></li>
@@ -85,6 +94,35 @@
     </div>
   </section>
 
+  <!-- PROGRAMS -->
+  <section class="programs-section" id="programs" aria-labelledby="programs-title">
+    <div class="section-heading">
+      <p class="section-kicker">Grow Together</p>
+      <h2 id="programs-title">Our Programs</h2>
+      <p>Simple, consistent spaces to hear God's Word, pray, and build genuine friendships.</p>
+    </div>
+    <div class="program-grid">
+      <article class="program-card">
+        <p class="program-number">01</p>
+        <h3>Sunday Fellowship</h3>
+        <p>Join the live service every Sunday at 6:30 AM for worship, teaching, and fellowship.</p>
+        <a href="#sunday">Listen to the service</a>
+      </article>
+      <article class="program-card">
+        <p class="program-number">02</p>
+        <h3>Word &amp; Prayer</h3>
+        <p>Grow in faith through biblical teaching, reflection, and prayer with other young people.</p>
+        <a href="#about">Discover our mission</a>
+      </article>
+      <article class="program-card">
+        <p class="program-number">03</p>
+        <h3>Youth Community</h3>
+        <p>Build encouraging relationships with young people committed to living out their faith.</p>
+        <a href="#about">What to expect</a>
+      </article>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section class="about-section" id="about">
     <div>
@@ -118,180 +156,50 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo"><img src="Assets/YAM.png" alt="YAM Logo"></div>
+    <div class="footer-logo"><img src="Assets/YAM.png" alt="YAM Logo" loading="lazy" decoding="async"></div>
     <ul class="footer-links">
-      <li><a href="#">Facebook</a></li>
-      <li><a href="#">Instagram</a></li>
-      <li><a href="#">WhatsApp</a></li>
-      <li><a href="#">Contact Us</a></li>
+      <li><a href="#sunday">Sunday Service</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#about">About Us</a></li>
     </ul>
     <p class="footer-copy">© 2026 YAM - Youth Alive Meets · The Exemplary Youths</p>
   </footer>
 
 </div>
 
-<script src="//cdn.cloud.caster.fm/widgets/embed.js"></script>
+<script src="https://cdn.cloud.caster.fm/widgets/embed.js"></script>
 
 <script>
-/* ---------------------------------------------------------------
-   Background / lock-screen audio support for the Caster.fm player.
-
-   The embed widget injects its own <audio> element. We wait for it,
-   then wire up the Media Session API so the OS recognises this as a
-   media session and keeps it playing on lock screen / background tab,
-   with play/pause controls in the notification shade.
-
-   Wake Lock is added as a best-effort screen-on helper while the tab
-   is visible (it is auto-released by the browser once the tab hides,
-   so it is NOT what keeps audio alive in the background — Media
-   Session is).
----------------------------------------------------------------- */
+/* Playback remains under the supported Caster widget because its audio
+   runs inside a cross-origin iframe and cannot be controlled by this page. */
 (function () {
   'use strict';
 
-  var artworkUrl = new URL('Assets/YAM.png', location.href).href;
+  function labelPlayerFrame() {
+    var frame = document.querySelector('.player-embed iframe');
+    if (!frame) return false;
+    frame.title = 'YAM Sunday Service live audio player';
+    return true;
+  }
 
-  function setMediaMetadata() {
-    if (!('mediaSession' in navigator)) return;
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: 'YAM Sunday Service',
-      artist: 'Youth Alive Meets · Live',
-      album: 'YAM Live Radio',
-      artwork: [
-        { src: artworkUrl, sizes: '256x256', type: 'image/png' },
-        { src: artworkUrl, sizes: '512x512', type: 'image/png' }
-      ]
+  if (!labelPlayerFrame()) {
+    var observer = new MutationObserver(function () {
+      if (labelPlayerFrame()) observer.disconnect();
+    });
+    observer.observe(document.querySelector('.player-embed'), {
+      childList: true,
+      subtree: true
     });
   }
-
-  /* ---- Wake Lock (screen-on while visible; optional nicety) ---- */
-  var wakeLock = null;
-  async function requestWakeLock() {
-    if (!('wakeLock' in navigator)) return;
-    try {
-      wakeLock = await navigator.wakeLock.request('screen');
-      wakeLock.addEventListener('release', function () { wakeLock = null; });
-    } catch (e) { /* user gesture / permission may be required; ignore */ }
-  }
-  function releaseWakeLock() {
-    if (wakeLock) { wakeLock.release().catch(function () {}); wakeLock = null; }
-  }
-  // Re-acquire when the user returns to the tab while playing.
-  document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible' && currentAudio && !currentAudio.paused) {
-      requestWakeLock();
-    }
-  });
-
-  /* ---- Bind the Media Session to the widget's audio element ---- */
-  var currentAudio = null;
-
-  // The user's *intent*: true once they start playback, false only when
-  // THEY deliberately pause/stop. An OS interruption (another app/tab
-  // grabbing audio focus, a phone call, etc.) pauses the element WITHOUT
-  // changing this flag — that is how we know to auto-resume afterwards.
-  var intendPlaying = false;
-  var resumeTimer = null;
-
-  function setPlaybackState(state) {
-    // Never use 'none' — that drops us from the notification shade. While
-    // interrupted we stay 'paused' so the YAM card + controls remain.
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = state;
-  }
-
-  function stopResumeLoop() {
-    if (resumeTimer) { clearInterval(resumeTimer); resumeTimer = null; }
-  }
-
-  // Keep retrying to resume while the user still wants playback but the
-  // element is paused (i.e. another audio source interrupted us). Once
-  // that source releases audio focus, play() finally sticks and we're back.
-  function startResumeLoop(audio) {
-    if (resumeTimer) return;
-    var tries = 0;
-    resumeTimer = setInterval(function () {
-      if (!intendPlaying) { stopResumeLoop(); return; }
-      if (!audio.paused) { stopResumeLoop(); return; }   // we're back
-      if (++tries > 120) { stopResumeLoop(); return; }    // give up after ~3 min
-      audio.play().catch(function () { /* focus still held elsewhere */ });
-    }, 1500);
-  }
-
-  function bindAudio(audio) {
-    if (!audio || audio.__yamBound) return;
-    audio.__yamBound = true;
-    currentAudio = audio;
-
-    // Help mobile browsers keep the stream alive in the background.
-    audio.setAttribute('playsinline', '');
-    try { audio.preload = 'none'; } catch (e) {}
-
-    audio.addEventListener('play', function () {
-      intendPlaying = true;
-      stopResumeLoop();
-      setMediaMetadata();
-      setPlaybackState('playing');
-      requestWakeLock();
-    });
-
-    audio.addEventListener('pause', function () {
-      releaseWakeLock();
-      // Stay visible in the notification regardless of why we paused.
-      setPlaybackState('paused');
-      // If the user did NOT ask to pause, this is an interruption from
-      // another audio source — keep the metadata and try to resume.
-      if (intendPlaying) {
-        setMediaMetadata();
-        startResumeLoop(audio);
-      }
-    });
-
-    // The widget's own play/pause button doesn't route through our Media
-    // Session handlers, so treat any click inside the player as the user's
-    // authoritative intent: whatever state it lands in is what they wanted.
-    var embed = document.querySelector('.player-embed') || document;
-    embed.addEventListener('click', function () {
-      setTimeout(function () {
-        intendPlaying = !audio.paused;
-        if (!intendPlaying) stopResumeLoop();
-      }, 200);
-    }, true);
-
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.setActionHandler('play', function () {
-        intendPlaying = true;
-        audio.play().catch(function () {});
-      });
-      navigator.mediaSession.setActionHandler('pause', function () {
-        intendPlaying = false;        // deliberate pause — do NOT auto-resume
-        stopResumeLoop();
-        audio.pause();
-      });
-      navigator.mediaSession.setActionHandler('stop', function () {
-        intendPlaying = false;
-        stopResumeLoop();
-        audio.pause();
-      });
-      // Live stream: seeking is meaningless, disable to avoid OS scrub bar.
-      ['seekbackward', 'seekforward', 'seekto', 'previoustrack', 'nexttrack']
-        .forEach(function (action) {
-          try { navigator.mediaSession.setActionHandler(action, null); } catch (e) {}
-        });
-    }
-  }
-
-  /* The widget renders asynchronously; poll for its <audio> element. */
-  var attempts = 0;
-  var poll = setInterval(function () {
-    var audio = document.querySelector('audio');
-    if (audio) {
-      clearInterval(poll);
-      bindAudio(audio);
-    } else if (++attempts > 60) {        // ~30s give-up
-      clearInterval(poll);
-    }
-  }, 500);
 })();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function () {
+      /* The site remains usable if private browsing or policy blocks PWAs. */
+    });
+  });
+}
 </script>
 </body>
 </html>
