@@ -33,9 +33,14 @@
     </ul>
     <div class="nav-live">
       <span class="pulse-dot"></span>
-      Sunday 6:30PM
+      <span data-service-time-short>Sunday 6:30 AM</span>
     </div>
   </nav>
+
+  <aside class="site-announcement" id="site-announcement" hidden>
+    <strong>YAM Update</strong>
+    <span></span>
+  </aside>
 
   <!-- HERO -->
   <section class="hero">
@@ -61,7 +66,7 @@
             <div class="player-icon">🙏</div>
             <div class="player-station">
               <strong>YAM Sunday Service</strong>
-              <small>Every Sunday 6:30PM</small>
+              <small data-service-time-long>Every Sunday 6:30 AM</small>
             </div>
             <div class="player-live-tag">
               <span class="dot-white"></span>
@@ -161,12 +166,16 @@
       <li><a href="#sunday">Sunday Service</a></li>
       <li><a href="#programs">Programs</a></li>
       <li><a href="#about">About Us</a></li>
+      <li><a href="admin.html">Admin</a></li>
     </ul>
     <p class="footer-copy">© 2026 YAM - Youth Alive Meets · The Exemplary Youths</p>
   </footer>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="site.js"></script>
 <script src="https://cdn.cloud.caster.fm/widgets/embed.js"></script>
 
 <script>

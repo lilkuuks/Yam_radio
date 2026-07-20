@@ -38,6 +38,26 @@ body::before {
 
     .page { position: relative; z-index: 1; }
 
+    .site-announcement {
+      align-items: center;
+      background: var(--red-dark);
+      color: #fff;
+      display: flex;
+      font-size: 13px;
+      gap: 0.8rem;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      text-align: center;
+    }
+
+    .site-announcement[hidden] { display: none; }
+
+    .site-announcement strong {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
     /* NAV */
     nav {
       display: flex;

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#8B5A3C" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>YAM Admin</title>
+  <link rel="icon" type="image/png" href="Assets/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="auth-pending">
+  <div class="auth-gate" id="auth-gate" hidden>
+    <form class="auth-card" id="login-form">
+      <img src="Assets/YAM.png" alt="YAM" />
+      <p class="eyebrow">Protected administration</p>
+      <h1>Sign in</h1>
+      <p>Use the administrator account created in Supabase.</p>
+      <label>
+        Email
+        <input id="login-email" type="email" autocomplete="username" required />
+      </label>
+      <label>
+        Password
+        <input id="login-password" type="password" autocomplete="current-password" required />
+      </label>
+      <p class="auth-error" id="auth-error" role="alert"></p>
+      <button class="button primary" type="submit">Sign in</button>
+      <a href="index.html">Return to website</a>
+    </form>
+  </div>
+
+  <aside class="sidebar">
+    <a class="brand" href="index.html" aria-label="Return to YAM website">
+      <img src="Assets/YAM.png" alt="" />
+      <span>YAM Admin</span>
+    </a>
+    <nav aria-label="Admin sections">
+      <a class="active" href="#overview">Overview</a>
+      <a href="#service">Service</a>
+      <a href="#announcement">Announcement</a>
+      <a href="#sms">SMS</a>
+    </nav>
+    <a class="view-site" href="index.html">View website <span aria-hidden="true">↗</span></a>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Youth Alive Meets</p>
+        <h1>Admin Panel</h1>
+      </div>
+      <div class="topbar-actions">
+        <div class="connection" id="connection-status"><span></span> API not connected</div>
+        <button class="sign-out" id="sign-out" type="button" hidden>Sign out</button>
+      </div>
+    </header>
+
+    <div class="security-notice" id="setup-notice" role="note">
+      <strong>Setup mode</strong>
+      <span>This page is not secured yet. Add authentication before connecting real member data or SMS credentials.</span>
+    </div>
+
+    <section id="overview" aria-labelledby="overview-title">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">At a glance</p>
+          <h2 id="overview-title">Overview</h2>
+        </div>
+        <p class="last-saved" id="last-saved">Local drafts only</p>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span>Next service</span>
+          <strong id="next-service">Sunday · 6:30 AM</strong>
+          <small>Atlantic/Reykjavik</small>
+        </article>
+        <article class="stat-card">
+          <span>SMS provider</span>
+          <strong>Not connected</strong>
+          <small>Ready for your API</small>
+        </article>
+        <article class="stat-card">
+          <span>Recipients</span>
+          <strong>0 contacts</strong>
+          <small>No member data stored</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="service" aria-labelledby="service-title">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Schedule</p>
+          <h2 id="service-title">Sunday Service</h2>
+        </div>
+      </div>
+      <form class="panel form-grid" id="service-form">
+        <label>
+          Day
+          <select id="service-day">
+            <option>Sunday</option><option>Monday</option><option>Tuesday</option>
+            <option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option>
+          </select>
+        </label>
+        <label>
+          Start time
+          <input id="service-time" type="time" value="06:30" />
+        </label>
+        <label>
+          Time zone
+          <input id="service-timezone" type="text" value="Atlantic/Reykjavik" />
+        </label>
+        <div class="form-action">
+          <button class="button secondary" type="submit">Save locally</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="announcement" aria-labelledby="announcement-title">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Website message</p>
+          <h2 id="announcement-title">Announcement</h2>
+        </div>
+      </div>
+      <form class="panel" id="announcement-form">
+        <label>
+          Announcement text
+          <textarea id="announcement-text" rows="3" maxlength="240" placeholder="Example: This Sunday's service begins at 6:30 AM."></textarea>
+        </label>
+        <div class="form-footer">
+          <span>Saved on this device until the website API is connected.</span>
+          <button class="button secondary" type="submit">Save draft</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="sms" aria-labelledby="sms-title">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Member communication</p>
+          <h2 id="sms-title">SMS Message</h2>
+        </div>
+        <span class="status-pill">API required</span>
+      </div>
+      <div class="sms-layout">
+        <form class="panel sms-composer" id="sms-form">
+          <label>
+            Audience
+            <select id="sms-audience">
+              <option value="all">All members</option>
+              <option value="leaders">Youth leaders</option>
+              <option value="new">New members</option>
+              <option value="custom">Custom list</option>
+            </select>
+          </label>
+          <label>
+            Message
+            <textarea id="sms-message" rows="7" maxlength="320" placeholder="Write your message here…"></textarea>
+          </label>
+          <div class="message-meta">
+            <span id="character-count">0 / 320 characters</span>
+            <span id="segment-count">1 SMS segment</span>
+          </div>
+          <div class="button-row">
+            <button class="button secondary" type="button" id="save-sms">Save draft</button>
+            <button class="button primary" type="submit" disabled title="Connect an SMS API to enable sending">Send SMS</button>
+          </div>
+        </form>
+
+        <aside class="panel integration-card" aria-labelledby="integration-title">
+          <span class="integration-icon" aria-hidden="true">SMS</span>
+          <h3 id="integration-title">Integration ready</h3>
+          <p>The composer is ready for your SMS provider. When you provide the API, we will connect secure server-side sending, recipient lists, delivery status, and message history.</p>
+          <ul>
+            <li>API credentials stay off the browser</li>
+            <li>Confirmation before bulk sends</li>
+            <li>Delivery and failure reporting</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
