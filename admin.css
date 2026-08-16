@@ -101,6 +101,32 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
 .button.primary { background: var(--brown); color: #fff; }
 .button.secondary { background: var(--soft); color: var(--brown-dark); }
 .button:disabled { cursor: not-allowed; opacity: 0.45; }
+.button:not(:disabled):hover { filter: brightness(0.95); transform: translateY(-1px); }
+.preview-link, .text-button { color: var(--brown-dark); font-size: 12px; font-weight: 600; }
+.preview-link { text-decoration: underline; text-underline-offset: 3px; }
+.text-button { background: transparent; border: 0; cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+
+.songs-layout { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr); }
+.song-form { display: grid; gap: 1rem; }
+.song-form-heading, .song-library-heading, .admin-song-main, .admin-song-actions { align-items: center; display: flex; gap: 0.8rem; justify-content: space-between; }
+.song-form h3, .song-library h3 { font-size: 19px; margin: 0; }
+.song-fields { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.publish-toggle { align-items: center; align-self: end; display: flex; min-height: 43px; }
+.publish-toggle input { accent-color: var(--brown); height: 17px; width: 17px; }
+.song-library { align-self: start; }
+.song-library-heading { border-bottom: 1px solid var(--line); padding-bottom: 1rem; }
+.admin-song-list { display: grid; }
+.admin-song-item { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.admin-song-item:last-child { border-bottom: 0; }
+.admin-song-main { align-items: flex-start; }
+.admin-song-main strong { display: block; font-size: 14px; margin-bottom: 0.25rem; }
+.admin-song-main small { color: var(--muted); display: block; font-size: 11px; }
+.song-state { background: #e5f3e9; border-radius: 999px; color: #397148; flex: 0 0 auto; font-size: 10px; font-weight: 600; padding: 0.35rem 0.55rem; text-transform: uppercase; }
+.song-state.draft { background: #eee9e4; color: var(--muted); }
+.admin-song-actions { justify-content: flex-start; margin-top: 0.7rem; }
+.admin-song-actions button { background: transparent; border: 0; color: var(--brown-dark); cursor: pointer; font-size: 11px; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+.admin-song-actions button.delete-song { color: #9a3e3e; }
+.admin-song-empty { color: var(--muted); font-size: 12px; line-height: 1.6; padding: 1.5rem 0 0; }
 
 .sms-layout { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); }
 .sms-composer { display: grid; gap: 1rem; }
@@ -126,6 +152,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
   .stat-card { min-height: 120px; }
   .form-grid { grid-template-columns: 1fr 1fr; }
   .sms-layout { grid-template-columns: 1fr; }
+  .songs-layout { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -133,6 +160,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
   .connection { white-space: nowrap; }
   .security-notice { display: grid; }
   .form-grid { grid-template-columns: 1fr; }
+  .song-fields { grid-template-columns: 1fr; }
   .form-footer { align-items: flex-start; flex-direction: column; }
   .form-footer .button { width: 100%; }
 }

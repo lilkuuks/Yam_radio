@@ -1,0 +1,151 @@
+.minstrels-page {
+  --wine: #702f2f;
+  --gold: #c69454;
+  background: #f7f2ea;
+}
+
+.minstrels-page::before { opacity: 0.025; }
+.minstrels-page nav { background: rgba(247, 242, 234, 0.94); }
+.minstrels-page .nav-links a.active { color: var(--red-dark); }
+
+.back-link {
+  color: var(--red-dark);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.minstrels-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  min-height: 690px;
+}
+
+.minstrels-intro {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem clamp(1.5rem, 5vw, 5rem);
+}
+
+.minstrels-intro h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(84px, 12vw, 164px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.76;
+  margin: 1.4rem 0 2rem;
+}
+
+.minstrels-intro h1 span { color: var(--wine); }
+.minstrels-intro > p:not(.section-kicker) { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 2rem; max-width: 500px; }
+
+.record-art {
+  align-items: center;
+  background: var(--wine);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.record-art::before,
+.record-art::after {
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 50%;
+  content: '';
+  height: 520px;
+  position: absolute;
+  width: 520px;
+}
+
+.record-art::after { height: 610px; width: 610px; }
+.record-disc {
+  align-items: center;
+  background: repeating-radial-gradient(circle, #211d1a 0 5px, #2b2723 6px 9px);
+  border-radius: 50%;
+  box-shadow: 0 28px 70px rgba(28, 9, 9, 0.35);
+  display: flex;
+  height: min(31vw, 390px);
+  justify-content: center;
+  min-height: 290px;
+  min-width: 290px;
+  position: relative;
+  width: min(31vw, 390px);
+  z-index: 1;
+}
+
+.record-label {
+  align-items: center;
+  background: var(--gold);
+  border: 5px solid #d7af75;
+  border-radius: 50%;
+  color: #362315;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  height: 36%;
+  justify-content: center;
+  letter-spacing: 0.06em;
+  position: relative;
+  width: 36%;
+}
+
+.record-label::after { background: #211d1a; border-radius: 50%; content: ''; height: 14px; position: absolute; width: 14px; }
+.record-label span { font-family: 'DM Sans', sans-serif; font-size: 7px; font-weight: 600; letter-spacing: 0.22em; margin-top: 24px; }
+.record-art > p { font-size: 12px; letter-spacing: 0.16em; line-height: 1.6; margin-top: 3rem; position: relative; text-align: center; text-transform: uppercase; z-index: 1; }
+
+.song-section { background: #fff; border-top: 1px solid var(--border); padding: 6rem clamp(1.5rem, 5vw, 5rem); }
+.song-heading { align-items: end; display: flex; gap: 2rem; justify-content: space-between; margin-bottom: 3rem; }
+.song-heading h2, .song-empty h2, .minstrels-cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 7vw, 76px); font-weight: 400; line-height: 0.95; margin-top: 0.6rem; }
+.song-heading > p { color: var(--muted); font-size: 14px; line-height: 1.65; max-width: 370px; }
+
+.song-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.song-card { background: #f8f5f0; border: 1px solid #e7e0d7; border-radius: 14px; display: flex; flex-direction: column; min-height: 460px; overflow: hidden; padding: 2rem; }
+.song-card:nth-child(4n + 2), .song-card:nth-child(4n + 3) { background: #f2ebe2; }
+.song-index { align-items: center; color: var(--wine); display: flex; font-size: 10px; font-weight: 600; justify-content: space-between; letter-spacing: 0.18em; text-transform: uppercase; }
+.song-index::after { background: #d7cabd; content: ''; height: 1px; margin-left: 1rem; width: 56px; }
+.song-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 54px); font-weight: 400; letter-spacing: 0.02em; line-height: 0.95; margin: 2.2rem 0 0.5rem; }
+.song-byline { color: var(--muted); font-size: 12px; margin-bottom: 1.6rem; }
+.lyrics { font-family: Georgia, serif; font-size: 15px; font-style: italic; line-height: 1.8; max-height: 10.8em; overflow: hidden; position: relative; white-space: pre-line; }
+.lyrics.is-collapsed::after { background: linear-gradient(transparent, #f8f5f0); bottom: 0; content: ''; height: 5rem; left: 0; pointer-events: none; position: absolute; right: 0; }
+.song-card:nth-child(4n + 2) .lyrics.is-collapsed::after,
+.song-card:nth-child(4n + 3) .lyrics.is-collapsed::after { background: linear-gradient(transparent, #f2ebe2); }
+.lyrics.is-expanded { max-height: none; }
+.read-more { align-self: flex-start; background: transparent; border: 0; color: var(--wine); cursor: pointer; font-size: 12px; font-weight: 600; margin: 1rem 0 1.5rem; padding: 0; text-decoration: underline; text-underline-offset: 4px; }
+.song-actions { align-items: center; border-top: 1px solid #ded5ca; display: flex; gap: 1rem; justify-content: space-between; margin-top: auto; padding-top: 1.25rem; }
+.song-price { font-size: 13px; font-weight: 600; }
+.buy-song { background: var(--wine); border-radius: 6px; color: #fff; display: inline-flex; font-size: 12px; font-weight: 600; padding: 0.75rem 1rem; text-decoration: none; }
+.buy-song:hover { background: #552323; transform: translateY(-1px); }
+.buy-song[aria-disabled="true"] { background: #b7aba0; cursor: not-allowed; }
+.song-empty { padding: 5rem 1rem; text-align: center; }
+.song-empty > p:last-child { color: var(--muted); margin-top: 1rem; }
+
+.minstrels-cta { background: #2b2622; color: #fff; padding: 6rem clamp(1.5rem, 5vw, 5rem); text-align: center; }
+.minstrels-cta .section-kicker { color: #ddb47b; }
+.minstrels-cta h2 { margin: 0.7rem auto 2rem; max-width: 780px; }
+.minstrels-cta .btn-primary { background: #fff; color: #2b2622; }
+
+@media (max-width: 820px) {
+  .minstrels-hero { grid-template-columns: 1fr; }
+  .record-art { min-height: 530px; }
+  .record-disc { height: min(78vw, 390px); width: min(78vw, 390px); }
+  .song-grid { grid-template-columns: 1fr; }
+  .song-heading { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 540px) {
+  .back-link { font-size: 0; }
+  .back-link span { font-size: 18px; }
+  .minstrels-intro { padding-bottom: 4rem; padding-top: 4rem; }
+  .record-art { min-height: 430px; }
+  .record-disc { min-height: 250px; min-width: 250px; }
+  .song-card { min-height: 420px; padding: 1.5rem; }
+}

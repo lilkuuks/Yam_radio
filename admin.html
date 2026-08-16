@@ -18,10 +18,10 @@
       <img src="Assets/YAM.png" alt="YAM" />
       <p class="eyebrow">Protected administration</p>
       <h1>Sign in</h1>
-      <p>Use the administrator account created in Supabase.</p>
+      <p id="login-help">Use the administrator account created in Supabase.</p>
       <label>
-        Email
-        <input id="login-email" type="email" autocomplete="username" required />
+        <span id="login-identifier-label">Email</span>
+        <input id="login-email" type="text" autocomplete="username" required />
       </label>
       <label>
         Password
@@ -42,6 +42,7 @@
       <a class="active" href="#overview">Overview</a>
       <a href="#service">Service</a>
       <a href="#announcement">Announcement</a>
+      <a href="#minstrels">Minstrels</a>
       <a href="#sms">SMS</a>
     </nav>
     <a class="view-site" href="index.html">View website <span aria-hidden="true">↗</span></a>
@@ -76,7 +77,7 @@
         <article class="stat-card">
           <span>Next service</span>
           <strong id="next-service">Sunday · 6:30 AM</strong>
-          <small>Atlantic/Reykjavik</small>
+          <small id="service-timezone-label">Atlantic/Reykjavik</small>
         </article>
         <article class="stat-card">
           <span>SMS provider</span>
@@ -85,8 +86,8 @@
         </article>
         <article class="stat-card">
           <span>Recipients</span>
-          <strong>0 contacts</strong>
-          <small>No member data stored</small>
+          <strong id="song-count">0 songs</strong>
+          <small>Published by YAM Minstrels</small>
         </article>
       </div>
     </section>
@@ -115,7 +116,7 @@
           <input id="service-timezone" type="text" value="Atlantic/Reykjavik" />
         </label>
         <div class="form-action">
-          <button class="button secondary" type="submit">Save locally</button>
+          <button class="button secondary" id="save-service" type="submit">Save locally</button>
         </div>
       </form>
     </section>
@@ -134,9 +135,77 @@
         </label>
         <div class="form-footer">
           <span>Saved on this device until the website API is connected.</span>
-          <button class="button secondary" type="submit">Save draft</button>
+          <button class="button secondary" id="save-announcement" type="submit">Save draft</button>
         </div>
       </form>
+    </section>
+
+    <section id="minstrels" aria-labelledby="minstrels-title">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Songbook</p>
+          <h2 id="minstrels-title">YAM Minstrels</h2>
+        </div>
+        <a class="preview-link" href="minstrels.html" target="_blank" rel="noopener">View song page ↗</a>
+      </div>
+      <div class="songs-layout">
+        <form class="panel song-form" id="song-form">
+          <input id="song-id" type="hidden" />
+          <div class="song-form-heading">
+            <div>
+              <p class="eyebrow">Song details</p>
+              <h3 id="song-form-title">Add a song</h3>
+            </div>
+            <button class="text-button" id="cancel-song-edit" type="button" hidden>Cancel edit</button>
+          </div>
+          <div class="song-fields">
+            <label>
+              Song title
+              <input id="song-title" type="text" maxlength="120" required placeholder="Example: Made Alive" />
+            </label>
+            <label>
+              Writer / artist
+              <input id="song-artist" type="text" maxlength="120" value="YAM Minstrels" required />
+            </label>
+            <label>
+              Price label
+              <input id="song-price" type="text" maxlength="40" placeholder="Example: GHS 25" />
+            </label>
+            <label>
+              Purchase link
+              <input id="song-buy-url" type="url" maxlength="500" placeholder="https://your-checkout-link.com" />
+            </label>
+            <label>
+              Display order
+              <input id="song-order" type="number" min="0" max="999" value="0" />
+            </label>
+            <label class="publish-toggle">
+              <input id="song-published" type="checkbox" checked />
+              Show on the Minstrels page
+            </label>
+          </div>
+          <label>
+            Lyrics
+            <textarea id="song-lyrics" rows="10" maxlength="12000" required placeholder="Write or paste the full lyrics here…"></textarea>
+          </label>
+          <div class="form-footer">
+            <span>Long lyrics automatically receive a “Read full lyrics” control.</span>
+            <button class="button primary" id="save-song" type="submit">Add song</button>
+          </div>
+        </form>
+
+        <div class="panel song-library" aria-labelledby="song-library-title">
+          <div class="song-library-heading">
+            <div>
+              <p class="eyebrow">Current catalog</p>
+              <h3 id="song-library-title">Song library</h3>
+            </div>
+            <span class="status-pill" id="song-library-count">0 songs</span>
+          </div>
+          <div class="admin-song-list" id="admin-song-list"></div>
+          <p class="admin-song-empty" id="admin-song-empty">No songs added yet. Use the form to publish your first one.</p>
+        </div>
+      </div>
     </section>
 
     <section id="sms" aria-labelledby="sms-title">
@@ -189,7 +258,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
+  <script src="config.js?v=20260816"></script>
   <script src="admin.js"></script>
 </body>
 </html>

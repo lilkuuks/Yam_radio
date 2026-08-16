@@ -15,6 +15,8 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **About / mission** section describing the fellowship and what members can expect.
 - **Animated waveform & live indicator** for a polished, on-air feel.
 - **Responsive static design** — no build step, no dependencies to install.
+- **YAM Minstrels songbook** — original song titles, expandable lyrics, and configurable purchase links.
+- **Admin publishing** — manage the service schedule, announcements, SMS drafts, and Minstrels songs locally or through Supabase.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
 
 ## Project structure
@@ -23,6 +25,10 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 radio_yam/
 ├── index.html      # Site markup and player embed
 ├── styles.css      # Site styling and responsive layout
+├── minstrels.html  # YAM Minstrels songs and lyrics
+├── minstrels.css   # Songbook styling
+├── minstrels.js    # Song loading and lyric expansion
+├── admin.html      # Protected content administration
 ├── Assets/
 │   └── YAM.png     # Logo / favicon
 ├── LICENSE         # MIT License
@@ -61,6 +67,8 @@ npx serve .
 Then visit <http://localhost:8000>.
 
 ## Configuration
+
+Run `node scripts/configure.mjs` after setting either Supabase credentials or the local admin username and password in the ignored `.env` file. The local password is converted to a salted hash before any browser configuration is generated.
 
 The live stream is configured via the player embed in `index.html`. To point it at a different station, update the `data-*` attributes on the `cstrEmbed` element:
 

@@ -5,7 +5,7 @@ The website is ready for Supabase Auth and shared admin data. No secret credenti
 ## 1. Create the project and database
 
 1. Create a Supabase project.
-2. Open **SQL Editor** and run `supabase/migrations/202607200001_yam_admin.sql`.
+2. Open **SQL Editor** and run the files in `supabase/migrations/` in filename order. If the admin setup already exists, run only `202608160001_yam_minstrels.sql` to add song publishing.
 3. In **Authentication → Users**, create the first administrator with an email and strong password.
 4. Copy that user's UUID and run:
 
@@ -15,6 +15,7 @@ values ('PASTE-AUTH-USER-UUID-HERE');
 ```
 
 Only users listed in `admin_users` can change settings or access SMS drafts.
+The `minstrel_songs` table is publicly readable only for published songs; drafts and all editing remain administrator-only.
 
 ## 2. Connect the browser
 
@@ -33,6 +34,8 @@ window.YAM_CONFIG = Object.freeze({
   smsFunctionName: 'send-sms'
 });
 ```
+
+For a local username/password gate without Supabase, set `ADMIN_USERNAME` and `ADMIN_PASSWORD` in the ignored `.env` file and run the same configure command. The generated browser configuration contains a salted PBKDF2 hash, never the plaintext password. Because browser-only authentication can be inspected or bypassed by a determined visitor, use Supabase authentication for a public production admin panel.
 
 The publishable/anon key is intended for browser use. Authorization is enforced by Row Level Security. Never place a service-role key or SMS secret in `config.js`.
 

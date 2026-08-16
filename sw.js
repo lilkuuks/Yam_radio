@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'yam-static-v4';
+const STATIC_CACHE = 'yam-static-v5';
 const RUNTIME_CACHE = 'yam-runtime-v1';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
@@ -8,6 +8,9 @@ const APP_SHELL = [
   './index.html',
   './styles.css',
   './site.js',
+  './minstrels.html',
+  './minstrels.css',
+  './minstrels.js',
   './manifest.webmanifest',
   './Assets/YAM.png',
   './Assets/icon-192.png',

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#6B4423" />
+  <meta name="description" content="Read lyrics and discover original songs written by YAM Minstrels." />
+  <title>YAM Minstrels | Songs &amp; Lyrics</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="Assets/YAM.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="minstrels.css" />
+</head>
+<body class="minstrels-page">
+  <div class="page">
+    <nav>
+      <a class="nav-logo" href="index.html" aria-label="YAM home">
+        <img src="Assets/YAM.png" alt="YAM Logo" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#sunday">Sunday Service</a></li>
+        <li><a class="active" href="minstrels.html" aria-current="page">YAM Minstrels</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+      </ul>
+      <a class="back-link" href="index.html">Back to YAM <span aria-hidden="true">↗</span></a>
+    </nav>
+
+    <header class="minstrels-hero">
+      <div class="minstrels-intro">
+        <p class="section-kicker">Songs from the house</p>
+        <h1>YAM<br><span>Minstrels</span></h1>
+        <p>Original songs written from worship, fellowship, and the Word. Read the lyrics, sit with the message, and support the music.</p>
+        <a class="btn-primary" href="#songs">Explore the songs <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="record-art" aria-hidden="true">
+        <div class="record-disc">
+          <div class="record-label">YAM<span>MINSTRELS</span></div>
+        </div>
+        <p>Written to be sung.<br>Made to build faith.</p>
+      </div>
+    </header>
+
+    <main class="song-section" id="songs">
+      <div class="song-heading">
+        <div>
+          <p class="section-kicker">The songbook</p>
+          <h2>Songs &amp; Lyrics</h2>
+        </div>
+        <p>Every lyric is shared so you can carry the message beyond the music.</p>
+      </div>
+      <div class="song-grid" id="song-grid" aria-live="polite"></div>
+      <div class="song-empty" id="song-empty" hidden>
+        <p class="section-kicker">The songbook is growing</p>
+        <h2>New songs are on the way.</h2>
+        <p>Check back soon for lyrics and releases from YAM Minstrels.</p>
+      </div>
+    </main>
+
+    <section class="minstrels-cta" aria-labelledby="minstrels-cta-title">
+      <p class="section-kicker">Stay in the song</p>
+      <h2 id="minstrels-cta-title">Worship with us every Sunday.</h2>
+      <a class="btn-primary" href="index.html#sunday">Listen to YAM Radio</a>
+    </section>
+
+    <footer>
+      <div class="footer-logo"><img src="Assets/YAM.png" alt="YAM Logo" /></div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#sunday">Sunday Service</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 YAM Minstrels · Youth Alive Meets</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js?v=20260816"></script>
+  <script src="minstrels.js"></script>
+</body>
+</html>
