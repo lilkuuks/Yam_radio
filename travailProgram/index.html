@@ -4,161 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#351151" />
-  <meta name="description" content="The official Travail 2.0 program outline from Youth Alive Meets — live session status, what is next, and the full event schedule." />
+  <meta name="description" content="The official Travail 2.0 program outline from Youth Alive Meets." />
   <link rel="canonical" href="https://radio-yam.vercel.app/travailProgram" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://radio-yam.vercel.app/travailProgram" />
   <meta property="og:title" content="Travail 2.0 Program | Youth Alive Meets" />
   <meta property="og:description" content="See what is happening now, what comes next, and the complete Travail 2.0 program." />
-  <meta property="og:image" content="https://radio-yam.vercel.app/Assets/travail-hero.webp" />
-  <meta property="og:image:alt" content="Travail 2.0 worshippers framed by purple and cream event artwork" />
+  <meta property="og:image" content="https://radio-yam.vercel.app/Assets/travail-2-flyer.jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Travail 2.0 Program | Youth Alive Meets" />
-  <meta name="twitter:description" content="The official live program outline for Travail 2.0." />
-  <meta name="twitter:image" content="https://radio-yam.vercel.app/Assets/travail-hero.webp" />
+  <meta name="twitter:description" content="The official program outline for Travail 2.0." />
+  <meta name="twitter:image" content="https://radio-yam.vercel.app/Assets/travail-2-flyer.jpeg" />
   <title>Travail 2.0 Program | Youth Alive Meets</title>
   <link rel="icon" type="image/png" href="../Assets/YAM.png" />
   <link rel="apple-touch-icon" href="../Assets/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../travail-program.css" />
 </head>
 <body>
-  <header class="program-topbar">
-    <a class="program-brand" href="../" aria-label="Youth Alive Meets home">
+  <header class="site-bar">
+    <a href="../" class="brand" aria-label="Back to Youth Alive Meets">
       <img src="../Assets/YAM.png" alt="" width="116" height="128" />
-      <span>Travail 2.0</span>
+      <span>Youth Alive Meets</span>
     </a>
-    <span class="program-label">Official program</span>
+    <span class="page-tag">Program</span>
   </header>
 
-  <main>
-    <section class="event-hero" id="overview" aria-labelledby="event-title">
-      <div class="hero-art" aria-hidden="true">
-        <img src="../Assets/travail-hero.webp" alt="" width="1280" height="720" fetchpriority="high" />
-      </div>
-      <div class="hero-copy">
-        <p class="eyebrow">Youth Alive Meets <span>Presents</span></p>
-        <h1 id="event-title"><span>Travail</span> <strong>2.0</strong></h1>
-        <p class="theme-line">Word <i></i> Prayer <i></i> Worship</p>
-        <p class="hero-intro">A glorious time of worship, prayer and the Word.</p>
-        <dl class="event-facts">
-          <div><dt>Date</dt><dd>Saturday, 5 September 2026</dd></div>
-          <div><dt>Time</dt><dd>9:00 AM – 3:00 PM</dd></div>
-          <div><dt>Venue</dt><dd>RWC Auditorium</dd></div>
-        </dl>
-        <a class="hero-action" href="#now">See what’s happening <span aria-hidden="true">↓</span></a>
+  <main class="program-page">
+    <section class="event-heading" aria-labelledby="event-title">
+      <p class="eyebrow">Youth Alive Meets presents</p>
+      <h1 id="event-title">Travail <span>2.0</span></h1>
+      <p class="theme">Word <i></i> Prayer <i></i> Worship</p>
+      <div class="event-details" aria-label="Event details">
+        <span>Sat, 5 Sep 2026</span>
+        <span>9:00 AM – 3:00 PM</span>
+        <span>RWC Auditorium</span>
       </div>
     </section>
 
-    <section class="status-section" id="now" aria-labelledby="now-heading">
-      <div class="section-intro">
-        <p class="section-kicker">At a glance</p>
-        <h2 id="now-heading">The moment, made clear.</h2>
+    <section class="quick-status" aria-label="Current program status" aria-live="polite">
+      <div class="status-block status-now">
+        <p><span class="status-dot"></span><span data-now-label>Program status</span></p>
+        <strong data-now-title>Travail begins soon</strong>
+        <small data-now-time>Saturday · 9:00 AM</small>
       </div>
-      <div class="status-grid">
-        <article class="live-card" id="live-session" aria-live="polite">
-          <div class="card-label"><span class="live-dot"></span> <span data-live-label>Happening now</span></div>
-          <p class="live-state" data-live-state>Before the program</p>
-          <h3 data-live-title>Travail begins soon</h3>
-          <p class="card-time" data-live-time>Saturday · 9:00 AM</p>
-          <p class="card-description" data-live-description>Return here during the event for the current session and time remaining.</p>
-        </article>
-        <article class="next-card" aria-live="polite">
-          <div class="card-label">Up next</div>
-          <p class="session-index" data-next-index>01</p>
-          <h3 data-next-title>Arrival &amp; Registration</h3>
-          <p class="card-time" data-next-time>9:00 AM – 9:15 AM</p>
-          <p class="next-minister" data-next-minister>Welcome team</p>
-        </article>
+      <div class="status-block status-next">
+        <p>Up next</p>
+        <strong data-next-title>Arrival &amp; Registration</strong>
+        <small data-next-time>9:00 AM – 9:15 AM</small>
       </div>
     </section>
 
-    <section class="timeline-section" id="program" aria-labelledby="program-heading">
-      <div class="section-intro timeline-heading">
-        <div>
-          <p class="section-kicker">Saturday · 5 September</p>
-          <h2 id="program-heading">Program outline</h2>
-        </div>
-        <p>Tap any session for its details. The active session updates automatically during the event.</p>
+    <section class="outline" id="program" aria-labelledby="program-title">
+      <div class="outline-heading">
+        <p class="eyebrow">Saturday’s schedule</p>
+        <h2 id="program-title">Program outline</h2>
+        <p>Follow the boxes from left to right, then down and back across.</p>
       </div>
-      <div class="category-key" aria-label="Session category color key">
-        <span class="key-prayer">Prayer</span>
-        <span class="key-worship">Worship</span>
-        <span class="key-word">Word</span>
-        <span class="key-special">Special</span>
-      </div>
-      <div class="timeline" data-program-timeline></div>
-      <noscript><p class="noscript-message">JavaScript is required for the live session indicator. The event runs from 9:00 AM to 3:00 PM.</p></noscript>
-    </section>
-
-    <section class="ministers-section" id="ministers" aria-labelledby="ministers-heading">
-      <div class="section-intro light-heading">
-        <p class="section-kicker">Serving the moment</p>
-        <h2 id="ministers-heading">Ministry focus</h2>
-        <p>Word, prayer and worship are carried through every part of the day. Named ministers and facilitators can be added when confirmed.</p>
-      </div>
-      <div class="minister-track" data-ministers></div>
-    </section>
-
-    <figure class="scripture-section">
-      <blockquote>“As soon as Zion travailed, she brought forth her children.”</blockquote>
-      <figcaption>Isaiah 66:8 · KJV</figcaption>
-    </figure>
-
-    <section class="info-section" id="info" aria-labelledby="info-heading">
-      <div class="info-layout">
-        <div class="info-copy">
-          <p class="section-kicker">Keep this close</p>
-          <h2 id="info-heading">Event information</h2>
-          <dl class="info-list">
-            <div><dt>Date</dt><dd>Saturday, 5 September 2026</dd></div>
-            <div><dt>Time</dt><dd>9:00 AM – 3:00 PM</dd></div>
-            <div><dt>Venue</dt><dd>RWC Auditorium</dd></div>
-            <div><dt>Theme</dt><dd>Travail 2.0</dd></div>
-            <div><dt>Focus</dt><dd>Word · Prayer · Worship</dd></div>
-            <div><dt>Organized by</dt><dd>Youth Alive Meets — The Exemplary Youths</dd></div>
-          </dl>
-          <a class="attendance-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfMlHhHAAkLMSG0d6PmpwB-05GmfcVK8nRFYjktXChkvZHrYQ/viewform" target="_blank" rel="noopener noreferrer">Mark your attendance <span aria-hidden="true">↗</span></a>
-        </div>
-        <details class="flyer-reveal">
-          <summary>View the official flyer <span aria-hidden="true">+</span></summary>
-          <img src="../Assets/travail-2-flyer.jpeg" alt="Official Travail 2.0 flyer with date, time, venue and worship photography" width="1600" height="1600" loading="lazy" decoding="async" />
-        </details>
-      </div>
+      <div class="snake-timeline" data-program-timeline></div>
+      <noscript><p class="noscript-message">Turn on JavaScript to view the full program timeline.</p></noscript>
     </section>
   </main>
 
-  <footer class="program-footer">
-    <img src="../Assets/YAM.png" alt="Youth Alive Meets" width="116" height="128" loading="lazy" decoding="async" />
+  <footer>
     <p>Travail 2.0 · We are prevailing.</p>
-    <a href="../">Return to YAM Radio</a>
+    <a href="../">Back to YAM Radio</a>
   </footer>
-
-  <button class="back-to-now" type="button" data-back-to-now hidden>
-    <span aria-hidden="true">↑</span> Back to now
-  </button>
-
-  <nav class="bottom-nav" aria-label="Travail page sections">
-    <a href="#overview"><span aria-hidden="true">◇</span>Overview</a>
-    <a href="#program" class="is-active" aria-current="page"><span aria-hidden="true">≡</span>Program</a>
-    <a href="#ministers"><span aria-hidden="true">○</span>Ministry</a>
-    <a href="#info"><span aria-hidden="true">⌖</span>Info</a>
-  </nav>
-
-  <dialog class="session-dialog" id="session-dialog" aria-labelledby="dialog-title">
-    <div class="dialog-handle" aria-hidden="true"></div>
-    <button class="dialog-close" type="button" aria-label="Close session details">×</button>
-    <p class="dialog-category" data-dialog-category></p>
-    <h2 id="dialog-title" data-dialog-title></h2>
-    <p class="dialog-time" data-dialog-time></p>
-    <dl class="dialog-details">
-      <div data-dialog-minister-wrap><dt>Led by</dt><dd data-dialog-minister></dd></div>
-      <div data-dialog-scripture-wrap><dt>Scripture</dt><dd data-dialog-scripture></dd></div>
-    </dl>
-    <p class="dialog-description" data-dialog-description></p>
-  </dialog>
 
   <script src="../travail-program.js"></script>
 </body>

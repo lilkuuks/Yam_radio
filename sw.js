@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'yam-static-v7';
+const STATIC_CACHE = 'yam-static-v8';
 const RUNTIME_CACHE = 'yam-runtime-v2';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
@@ -18,10 +18,6 @@ const APP_SHELL = [
   './manifest.webmanifest',
   './Assets/YAM.png',
   './Assets/travail-2-flyer.jpeg',
-  './Assets/travail-hero.webp',
-  './Assets/travail-card-word.webp',
-  './Assets/travail-card-community.webp',
-  './Assets/travail-card-worship.webp',
   './Assets/icon-192.png',
   './Assets/icon-512.png',
   './Assets/icon-maskable-512.png'
