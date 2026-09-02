@@ -15,6 +15,7 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **About / mission** section describing the fellowship and what members can expect.
 - **Animated waveform & live indicator** for a polished, on-air feel.
 - **Responsive static design** — no build step, no dependencies to install.
+- **Travail 2.0 live program** — a mobile-first schedule at `/travailProgram` with current and upcoming session states.
 - **YAM Minstrels songbook** — original song titles, expandable lyrics, and configurable purchase links.
 - **Admin publishing** — manage the service schedule, announcements, SMS drafts, and Minstrels songs locally or through Supabase.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
@@ -28,6 +29,9 @@ radio_yam/
 ├── minstrels.html  # YAM Minstrels songs and lyrics
 ├── minstrels.css   # Songbook styling
 ├── minstrels.js    # Song loading and lyric expansion
+├── travailProgram/ # Official Travail 2.0 program route
+├── travail-program.css
+├── travail-program.js
 ├── admin.html      # Protected content administration
 ├── Assets/
 │   └── YAM.png     # Logo / favicon
