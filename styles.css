@@ -15,6 +15,8 @@
 html { scroll-behavior: smooth; }
 
 #sunday,
+#travail,
+#attendance,
 #programs,
 #about { scroll-margin-top: 80px; }
 
@@ -349,6 +351,238 @@ body::before {
       50%      { height: 30px; opacity: 0.85; }
     }
 
+    /* TRAVAIL 2.0 */
+    .travail-section {
+      --travail-purple: #351151;
+      --travail-purple-soft: #6d387e;
+      --travail-gold: #c89a58;
+      --travail-paper: #f8f2e9;
+      background:
+        radial-gradient(circle at 85% 5%, rgba(200,154,88,0.19), transparent 28rem),
+        linear-gradient(145deg, #2a0d40 0%, #40165a 52%, #24102f 100%);
+      color: #fff;
+      overflow: hidden;
+      padding: 6rem 2.5rem 4rem;
+      position: relative;
+    }
+
+    .travail-section::before {
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 50%;
+      content: '';
+      height: 34rem;
+      left: -21rem;
+      position: absolute;
+      top: 22rem;
+      width: 34rem;
+    }
+
+    .travail-intro,
+    .travail-participate,
+    .travail-tags {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1180px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .travail-intro {
+      align-items: center;
+      display: grid;
+      gap: clamp(2.5rem, 6vw, 6rem);
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    }
+
+    .travail-flyer-wrap {
+      background: var(--travail-paper);
+      box-shadow: 0 32px 70px rgba(9,2,14,0.45);
+      padding: 0.75rem;
+      transform: rotate(-1.2deg);
+    }
+
+    .travail-flyer {
+      aspect-ratio: 16 / 9;
+      display: block;
+      height: auto;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .travail-kicker,
+    .travail-panel-heading > p {
+      color: var(--travail-gold);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .travail-copy h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(76px, 9vw, 126px);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 0.82;
+      margin: 0.9rem 0 1.5rem;
+    }
+
+    .travail-copy h2 span { color: var(--travail-gold); }
+
+    .travail-theme {
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .travail-theme strong { color: #fff; font-weight: 500; }
+
+    .travail-copy blockquote {
+      border-left: 2px solid var(--travail-gold);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(18px, 2vw, 23px);
+      font-style: italic;
+      line-height: 1.55;
+      margin: 2.25rem 0 1.75rem;
+      padding-left: 1.25rem;
+    }
+
+    .travail-copy cite {
+      color: var(--travail-gold);
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-style: normal;
+      letter-spacing: 0.12em;
+      margin-top: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    .travail-lead {
+      color: rgba(255,255,255,0.72);
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 34rem;
+    }
+
+    .travail-details {
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      border-top: 1px solid rgba(255,255,255,0.14);
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr 0.78fr 1.1fr;
+      margin: 2rem 0;
+      padding: 1.25rem 0;
+    }
+
+    .travail-details dt {
+      color: var(--travail-gold);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .travail-details dd {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .travail-cta {
+      align-items: center;
+      background: var(--travail-gold);
+      border-radius: 4px;
+      color: #25102f;
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 500;
+      gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .travail-cta:hover {
+      background: #ddb576;
+      transform: translateY(-2px);
+    }
+
+    .travail-participate {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      margin-top: 5rem;
+    }
+
+    .travail-panel {
+      background: var(--travail-paper);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 10px;
+      box-shadow: 0 20px 48px rgba(9,2,14,0.25);
+      color: #27172d;
+      overflow: hidden;
+    }
+
+    .travail-panel-heading {
+      min-height: 128px;
+      padding: 1.75rem 1.75rem 1.5rem;
+    }
+
+    .travail-panel-heading h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 0.55rem 0 0.35rem;
+    }
+
+    .travail-panel-heading > span {
+      color: rgba(39,23,45,0.62);
+      font-size: 13px;
+    }
+
+    .travail-video {
+      background: #14081b;
+      display: block;
+      max-height: 605px;
+      min-height: 340px;
+      object-fit: contain;
+      width: 100%;
+    }
+
+    .attendance-frame-wrap {
+      background: #fff;
+      border-top: 1px solid rgba(39,23,45,0.1);
+      height: 605px;
+      overflow: hidden;
+    }
+
+    .attendance-frame {
+      border: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .attendance-fallback {
+      color: var(--travail-purple-soft);
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 1rem 1.75rem 1.25rem;
+      text-underline-offset: 3px;
+    }
+
+    .travail-tags {
+      color: rgba(255,255,255,0.52);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      margin-top: 2.5rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
 
 
     /* PROGRAMS */
@@ -502,10 +736,34 @@ body::before {
       }
       .hero-left { padding: 3rem 1.5rem; }
       .programs-section { padding: 3rem 1.5rem; }
+      .travail-section { padding: 4rem 1.25rem 3rem; }
+      .travail-intro,
+      .travail-participate { grid-template-columns: 1fr; }
+      .travail-intro { gap: 3.25rem; }
+      .travail-flyer-wrap { padding: 0.45rem; transform: rotate(-0.5deg); }
+      .travail-copy h2 { font-size: clamp(72px, 25vw, 104px); }
+      .travail-details { grid-template-columns: 1fr; }
+      .travail-participate { margin-top: 3.5rem; }
+      .travail-panel-heading { min-height: auto; }
+      .travail-video { min-height: 240px; }
+      .attendance-frame-wrap { height: 620px; }
       .program-grid { grid-template-columns: 1fr; }
       .about-section { grid-template-columns: 1fr; gap: 2rem; }
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       .section { padding: 3rem 1.5rem; }
       footer { padding: 2rem 1.5rem; }
+    }
+
+    @media (max-width: 420px) {
+      .travail-flyer-wrap { margin-left: -0.5rem; margin-right: -0.5rem; }
+      .travail-panel-heading { padding: 1.4rem; }
+      .attendance-fallback { margin-left: 1.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .pulse-dot,
+      .dot-white,
+      .wave-bar { animation: none; }
     }

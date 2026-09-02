@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'yam-static-v5';
+const STATIC_CACHE = 'yam-static-v6';
 const RUNTIME_CACHE = 'yam-runtime-v1';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
@@ -13,6 +13,7 @@ const APP_SHELL = [
   './minstrels.js',
   './manifest.webmanifest',
   './Assets/YAM.png',
+  './Assets/travail-2-flyer.jpeg',
   './Assets/icon-192.png',
   './Assets/icon-512.png',
   './Assets/icon-maskable-512.png'
@@ -75,6 +76,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   if (request.method !== 'GET') return;
+  if (request.destination === 'video' || request.headers.has('range')) return;
   if (/\/admin(?:\.html|\.css|\.js)$/.test(url.pathname)) return;
   if (/\/config\.js$/.test(url.pathname)) return;
 

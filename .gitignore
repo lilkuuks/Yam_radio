@@ -1,3 +1,5 @@
 .env
 supabase/.env
 supabase/functions/.env
+dist/
+.codex-media-tools/
