@@ -127,6 +127,6 @@ grant insert, update, delete on public.minstrel_songs to authenticated;
 
 insert into public.site_settings (key, value)
 values
-  ('service_schedule', '{"day":"Sunday","time":"06:30","timezone":"Atlantic/Reykjavik"}'::jsonb),
+  ('service_schedule', '{"day":"Sunday","time":"18:30","timezone":"Atlantic/Reykjavik"}'::jsonb),
   ('announcement', '{"text":"","enabled":false}'::jsonb)
 on conflict (key) do nothing;

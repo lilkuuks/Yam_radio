@@ -9,7 +9,7 @@
   });
 
   const formatTime = (value) => {
-    if (!value) return '6:30 AM';
+    if (!value) return '6:30 PM';
     const [hours, minutes] = value.split(':').map(Number);
     const suffix = hours >= 12 ? 'PM' : 'AM';
     return `${hours % 12 || 12}:${String(minutes).padStart(2, '0')} ${suffix}`;

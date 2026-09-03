@@ -10,7 +10,7 @@
     config.adminUsername && config.adminPasswordSalt && config.adminPasswordHash && config.adminPasswordIterations
   );
   const client = isConfigured ? window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey) : null;
-  const defaults = { serviceDay: 'Sunday', serviceTime: '06:30', timezone: 'Atlantic/Reykjavik', announcement: '', smsAudience: 'all', smsMessage: '', savedAt: null };
+  const defaults = { serviceDay: 'Sunday', serviceTime: '18:30', timezone: 'Atlantic/Reykjavik', announcement: '', smsAudience: 'all', smsMessage: '', savedAt: null };
 
   const readJson = (key, fallback) => {
     try {
@@ -98,7 +98,7 @@
   };
 
   const formatTime = (value) => {
-    if (!value) return '6:30 AM';
+    if (!value) return '6:30 PM';
     const [hours, minutes] = value.split(':').map(Number);
     return `${hours % 12 || 12}:${String(minutes).padStart(2, '0')} ${hours >= 12 ? 'PM' : 'AM'}`;
   };

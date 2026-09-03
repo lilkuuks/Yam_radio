@@ -4,7 +4,7 @@
 
 A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellowship, featuring a **live audio stream** of the Sunday service. Visitors can land on the page, read about the community, and tune in to the live broadcast directly from their browser.
 
-🔴 **Live every Sunday, 6:30 AM** — _YAM Sunday Service_
+🔴 **Live every Sunday, 6:30 PM** — _YAM Sunday Service_
 
 ---
 
