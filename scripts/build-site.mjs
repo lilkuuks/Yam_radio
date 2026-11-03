@@ -19,6 +19,8 @@ const files = [
   'site.js',
   'styles.css',
   'sw.js',
+  'travail-3.css',
+  'travail-event.js',
   'travail-program.css',
   'travail-program.js'
 ];

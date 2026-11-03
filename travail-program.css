@@ -1,8 +1,8 @@
 :root {
-  --purple: #351151;
-  --purple-dark: #22082f;
-  --gold: #b89060;
-  --cream: #f8f2e9;
+  --purple: #40321b;
+  --purple-dark: #171511;
+  --gold: #c6a354;
+  --cream: #f3f0e8;
   --paper: #fffdf8;
   --ink: #171219;
   --muted: #756d74;
@@ -51,6 +51,24 @@ a { color: inherit; }
 .theme i { background: var(--gold); border-radius: 50%; height: 4px; width: 4px; }
 .event-details { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-top: 1.5rem; }
 .event-details span { background: var(--paper); border: 1px solid var(--line); border-radius: 7px; font-size: 10px; font-weight: 500; padding: .55rem .7rem; }
+.overnight-note { color: #625d52; font-size: 11px; line-height: 1.6; margin-top: 1rem; }
+.event-milestones { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: center; max-width: 650px; margin: 0 auto; }
+.event-milestones article { background: var(--paper); border: 1px solid #d6c9ad; border-top: 3px solid var(--gold); border-radius: 6px; padding: 1.4rem; }
+.event-milestones article p { color: #75603a; font-size: 9px; letter-spacing: .06em; line-height: 1.6; text-transform: uppercase; }
+.event-milestones article h3 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; margin: .35rem 0; }
+.event-milestones article span { font-size: 11px; line-height: 1.5; }
+.milestone-line { height: 1px; background: var(--gold); }
+.program-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.5rem; margin: 2rem 0; }
+.program-actions a { font-size: 12px; text-underline-offset: 4px; }
+.program-actions .program-register { background: var(--purple-dark); border-radius: 4px; color: #f7ead0; padding: 1rem 1.3rem; text-decoration: none; }
+.program-flyer { display: block; max-width: 480px; margin: 3rem auto 0; }
+.program-flyer img { display: block; width: 100%; height: auto; border-radius: 5px; }
+a:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+@media (max-width: 480px) {
+  .event-milestones { grid-template-columns: 1fr; }
+  .milestone-line { height: 28px; width: 1px; margin: auto; }
+  footer { gap: 1rem; flex-wrap: wrap; }
+}
 
 .quick-status { display: grid; gap: .75rem; grid-template-columns: 1fr 1fr; padding: 1.5rem 0 2.5rem; }
 .status-block { border: 1px solid var(--line); border-radius: 10px; min-width: 0; padding: 1rem; }

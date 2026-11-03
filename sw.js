@@ -1,5 +1,5 @@
-const STATIC_CACHE = 'yam-static-v8';
-const RUNTIME_CACHE = 'yam-runtime-v2';
+const STATIC_CACHE = 'yam-static-v9-travail3';
+const RUNTIME_CACHE = 'yam-runtime-v3-travail3';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
 
@@ -8,6 +8,8 @@ const APP_SHELL = [
   './index.html',
   './styles.css',
   './site.js',
+  './travail-3.css',
+  './travail-event.js',
   './travailProgram',
   './travailProgram/',
   './travail-program.css',
@@ -17,7 +19,10 @@ const APP_SHELL = [
   './minstrels.js',
   './manifest.webmanifest',
   './Assets/YAM.png',
-  './Assets/travail-2-flyer.jpeg',
+  './Assets/travail-3-flyer.jpeg',
+  './Assets/travail-3-banner.jpg',
+  './Assets/travail-3-qr.png',
+  './Assets/travail-3.ics',
   './Assets/icon-192.png',
   './Assets/icon-512.png',
   './Assets/icon-maskable-512.png'
@@ -52,8 +57,8 @@ async function updateCache(cacheName, request) {
 }
 
 async function staleWhileRevalidate(cacheName, request, fallbackRequest, event) {
-  const cached = await caches.match(request) ||
-    (fallbackRequest ? await caches.match(fallbackRequest) : null);
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
   const network = updateCache(cacheName, request).catch(() => null);
 
   if (cached) {
@@ -63,6 +68,10 @@ async function staleWhileRevalidate(cacheName, request, fallbackRequest, event) 
 
   const response = await network;
   if (response) return response;
+  if (fallbackRequest) {
+    const fallback = await caches.match(fallbackRequest);
+    if (fallback) return fallback;
+  }
   return new Response('YAM Radio is temporarily offline.', {
     status: 503,
     headers: { 'Content-Type': 'text/plain; charset=utf-8' }
@@ -81,7 +90,7 @@ self.addEventListener('fetch', (event) => {
 
   if (request.method !== 'GET') return;
   if (request.destination === 'video' || request.headers.has('range')) return;
-  if (/\/admin(?:\.html|\.css|\.js)$/.test(url.pathname)) return;
+  if (/\/admin(?:\.html|\.css|\.js|\/)?$/.test(url.pathname)) return;
   if (/\/config\.js$/.test(url.pathname)) return;
 
   if (url.origin === self.location.origin) {

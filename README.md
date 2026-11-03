@@ -14,8 +14,8 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **Hero section** with a one-click _"Join Sunday Service"_ call-to-action that scrolls straight to the player.
 - **About / mission** section describing the fellowship and what members can expect.
 - **Animated waveform & live indicator** for a polished, on-air feel.
-- **Responsive static design** — no build step, no dependencies to install.
-- **Travail 2.0 live program** — a mobile-first schedule at `/travailProgram` with current and upcoming session states.
+- **Responsive static design** — a dependency-free Node build copies the public site into `dist/client`.
+- **Travail 3.0 event & program** — event details and an overnight countdown at `/travailProgram`. Confirmed for 13–14 November 2026, 9 PM–6 AM GMT; the full running order is pending.
 - **YAM Minstrels songbook** — original song titles, expandable lyrics, and configurable purchase links.
 - **Admin publishing** — manage the service schedule, announcements, SMS drafts, and Minstrels songs locally or through Supabase.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
@@ -29,7 +29,7 @@ radio_yam/
 ├── minstrels.html  # YAM Minstrels songs and lyrics
 ├── minstrels.css   # Songbook styling
 ├── minstrels.js    # Song loading and lyric expansion
-├── travailProgram/ # Official Travail 2.0 program route
+├── travailProgram/ # Travail 3.0 event and program route
 ├── travail-program.css
 ├── travail-program.js
 ├── admin.html      # Protected content administration
@@ -43,7 +43,7 @@ radio_yam/
 
 ## Getting started
 
-Because the site is a static HTML page, there is **nothing to build**.
+The site uses static HTML, CSS, and JavaScript. No npm dependencies need to be installed. For a deployable copy, run `npm run build`; the output is `dist/client`.
 
 ### Option 1 — Open directly
 
@@ -97,10 +97,10 @@ Swap the logo by replacing `Assets/YAM.png`.
 
 ## Deployment
 
-Any static host works — just publish the repository root:
+Run `npm run build` and publish `dist/client` on a static host:
 
 - **GitHub Pages** — enable Pages on the `main` branch.
-- **Netlify / Vercel / Cloudflare Pages** — point at the repo; no build command needed.
+- **Netlify / Vercel / Cloudflare Pages** — build command: `npm run build`; output directory: `dist/client`.
 
 ## License
 

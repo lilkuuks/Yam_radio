@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Youth Alive Meets//Travail 3.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:travail-3-20261113@radio-yam.vercel.app
+DTSTAMP:20261103T000000Z
+DTSTART:20261113T210000Z
+DTEND:20261114T060000Z
+SUMMARY:Travail 3.0 - Word\, Prayer\, Worship
+LOCATION:RWC Auditorium
+DESCRIPTION:Youth Alive Meets with RWC English Youth Ministry.\n
+ 9 PM to 6 AM GMT.
+URL:https://radio-yam.vercel.app/
+END:VEVENT
+END:VCALENDAR
