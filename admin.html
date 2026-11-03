@@ -85,7 +85,7 @@
           <small>Ready for your API</small>
         </article>
         <article class="stat-card">
-          <span>Recipients</span>
+          <span>Songbook</span>
           <strong id="song-count">0 songs</strong>
           <small>Published by YAM Minstrels</small>
         </article>
@@ -148,6 +148,8 @@
         </div>
         <a class="preview-link" href="minstrels.html" target="_blank" rel="noopener">View song page ↗</a>
       </div>
+      <p class="song-storage-notice" id="song-storage-status" role="status"></p>
+      <p class="song-form-message" id="song-form-message" role="status" aria-live="polite" hidden></p>
       <div class="songs-layout">
         <form class="panel song-form" id="song-form">
           <input id="song-id" type="hidden" />
@@ -161,11 +163,11 @@
           <div class="song-fields">
             <label>
               Song title
-              <input id="song-title" type="text" maxlength="120" required placeholder="Example: Made Alive" />
+              <input id="song-title" name="title" type="text" maxlength="120" required placeholder="Example: Made Alive" />
             </label>
             <label>
               Writer / artist
-              <input id="song-artist" type="text" maxlength="120" value="YAM Minstrels" required />
+              <input id="song-artist" name="artist" type="text" maxlength="120" value="YAM Minstrels" required />
             </label>
             <label>
               Price label
@@ -189,7 +191,7 @@
             <textarea id="song-lyrics" rows="10" maxlength="12000" required placeholder="Write or paste the full lyrics here…"></textarea>
           </label>
           <div class="form-footer">
-            <span>Long lyrics automatically receive a “Read full lyrics” control.</span>
+            <span>Lyrics keep their line breaks. Long songs receive a “Read full lyrics” control.</span>
             <button class="button primary" id="save-song" type="submit">Add song</button>
           </div>
         </form>
@@ -203,7 +205,13 @@
             <span class="status-pill" id="song-library-count">0 songs</span>
           </div>
           <div class="admin-song-list" id="admin-song-list"></div>
-          <p class="admin-song-empty" id="admin-song-empty">No songs added yet. Use the form to publish your first one.</p>
+          <p class="admin-song-empty" id="admin-song-empty">No songs saved yet. Add your first song using the form.</p>
+          <div class="song-backup-actions">
+            <button class="button secondary" id="export-songs" type="button">Download backup</button>
+            <button class="button secondary" id="import-songs" type="button">Import backup</button>
+            <input id="song-import-file" type="file" accept="application/json,.json" hidden />
+          </div>
+          <p class="song-backup-help" id="song-backup-help">Back up your songs before clearing browser data or moving to another device. Import adds songs and updates matching IDs.</p>
         </div>
       </div>
     </section>
@@ -259,6 +267,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=20260816"></script>
+  <script src="songbook-store.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

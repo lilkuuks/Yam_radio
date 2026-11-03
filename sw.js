@@ -1,5 +1,5 @@
-const STATIC_CACHE = 'yam-static-v10-travail3';
-const RUNTIME_CACHE = 'yam-runtime-v4-travail3';
+const STATIC_CACHE = 'yam-static-v11-songbook';
+const RUNTIME_CACHE = 'yam-runtime-v5-songbook';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
 
@@ -8,6 +8,7 @@ const APP_SHELL = [
   './index.html',
   './styles.css',
   './site.js',
+  './songbook-store.js',
   './travail-3.css',
   './travail-event.js',
   './travailProgram',

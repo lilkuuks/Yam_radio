@@ -1,32 +1,11 @@
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'yam-minstrels-songs-v1';
+  const songbook = window.YAM_SONGBOOK;
+  const STORAGE_KEY = songbook.key;
   const config = window.YAM_CONFIG || {};
   const isConfigured = Boolean(config.supabaseUrl && config.supabasePublishableKey && window.supabase);
-  const sampleSongs = [
-    {
-      id: 'sample-1', title: 'Alive in Your Word', artist: 'YAM Minstrels', price: 'Coming soon', buy_url: '', published: true,
-      lyrics: 'You called the morning out of night\nAnd spoke Your courage into me\nNow every step becomes a witness\nOf the grace that set me free\n\nWe are alive, alive in Your Word\nHearts awakened, voices heard\nThrough every season we will sing\nJesus, You are everything'
-    },
-    {
-      id: 'sample-2', title: 'Glorious Day', artist: 'YAM Minstrels', price: 'Coming soon', buy_url: '', published: true,
-      lyrics: 'Mercy met me in the waiting\nHope was standing at the door\nAll the fear I used to carry\nCannot hold me anymore\n\nEvery day is a glorious day\nWhen Your presence leads the way\nI will walk in love and truth\nI belong, Lord, I belong to You\n\nLet the weary find a family\nLet the searching find a home\nIn the fellowship of heaven\nNone of us will walk alone'
-    },
-    {
-      id: 'sample-3', title: 'Made Alive', artist: 'YAM Minstrels', price: 'Coming soon', buy_url: '', published: true,
-      lyrics: 'Not by strength and not by striving\nBy Your Spirit we arise\nYoung and chosen, filled with purpose\nWith Your fire in our eyes\n\nMade alive in Christ forever\nBuilt in grace and joined together\nWe will shine through every night\nBy Your Word we are made alive'
-    }
-  ];
-
-  const readLocalSongs = () => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      return Array.isArray(saved) ? saved.filter((song) => song.published !== false) : sampleSongs;
-    } catch (_error) {
-      return sampleSongs;
-    }
-  };
+  const readLocalSongs = () => songbook.sort(songbook.readLocal().filter((song) => song.published));
 
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (character) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -84,23 +63,40 @@
     });
   };
 
+  let loading = false;
+  const status = document.querySelector('#songbook-status');
+  const retry = document.querySelector('#songbook-retry');
   const loadSongs = async () => {
-    if (!isConfigured) {
-      renderSongs(readLocalSongs());
-      return;
-    }
-
-    const client = window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey, {
-      auth: { persistSession: false, autoRefreshToken: false }
-    });
-    const { data, error } = await client.from('minstrel_songs')
-      .select('id,title,artist,lyrics,price,buy_url,published,display_order')
-      .eq('published', true)
-      .order('display_order', { ascending: true })
-      .order('created_at', { ascending: true });
-
-    renderSongs(error ? readLocalSongs() : (data || []));
+    if (loading) return;
+    loading = true; retry.disabled = true;
+    try {
+      let songs;
+      if (!isConfigured) {
+        songs = readLocalSongs();
+        status.textContent = songs.length ? 'These songs are saved in this browser only.' : '';
+        status.hidden = !songs.length;
+      } else {
+        const client = window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey, {
+          auth: { persistSession: false, autoRefreshToken: false }
+        });
+        const { data, error } = await client.from('minstrel_songs')
+          .select(songbook.fields).eq('published', true)
+          .order('display_order', { ascending: true }).order('created_at', { ascending: true });
+        if (error) throw error;
+        songs = data || []; status.hidden = true;
+      }
+      renderSongs(songs); retry.hidden = true;
+    } catch (_error) {
+      document.querySelector('#song-empty').hidden = true;
+      status.textContent = 'Could not load the songbook. Your saved songs have not been changed. Please try again.';
+      status.hidden = false; retry.hidden = false;
+    } finally { loading = false; retry.disabled = false; }
   };
 
+  retry.addEventListener('click', loadSongs);
+  window.addEventListener('storage', (event) => {
+    if (!isConfigured && event.key === STORAGE_KEY) loadSongs();
+  });
+  window.addEventListener('focus', loadSongs);
   loadSongs();
 })();

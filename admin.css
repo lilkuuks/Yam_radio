@@ -127,6 +127,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
 .admin-song-actions button { background: transparent; border: 0; color: var(--brown-dark); cursor: pointer; font-size: 11px; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
 .admin-song-actions button.delete-song { color: #9a3e3e; }
 .admin-song-empty { color: var(--muted); font-size: 12px; line-height: 1.6; padding: 1.5rem 0 0; }
+.song-storage-notice { background: #eee5dc; border: 1px solid #e1d4c7; border-radius: 8px; color: #5c452f; font-size: 12px; line-height: 1.7; margin: 0 0 1rem; padding: .85rem 1rem; }
+.song-form-message { background: #e5f3e9; border: 1px solid #c3dfcb; border-radius: 8px; color: #235936; font-size: 13px; line-height: 1.6; padding: .85rem 1rem; }
+.song-form-message.is-error { background: #fff0ed; border-color: #ecc7be; color: #8b3026; }
+.song-backup-actions { display: flex; flex-wrap: wrap; gap: .6rem; border-top: 1px solid var(--line); margin-top: 1.25rem; padding-top: 1.25rem; }
+.song-backup-help { color: var(--muted); font-size: 11px; line-height: 1.7; margin: .8rem 0 0; }
+.admin-song-main > div { min-width: 0; }
+.admin-song-main strong, .admin-song-main small { overflow-wrap: anywhere; }
+.song-state { text-align: center; text-transform: none; }
 
 .sms-layout { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr); }
 .sms-composer { display: grid; gap: 1rem; }
@@ -163,4 +171,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
   .song-fields { grid-template-columns: 1fr; }
   .form-footer { align-items: flex-start; flex-direction: column; }
   .form-footer .button { width: 100%; }
+  .topbar, .topbar-actions, .song-form-heading, .section-title { flex-wrap: wrap; }
+  .panel { padding: 1.15rem; }
+  .song-backup-actions .button { flex: 1 1 130px; }
 }

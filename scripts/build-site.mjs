@@ -17,6 +17,7 @@ const files = [
   'minstrels.html',
   'minstrels.js',
   'site.js',
+  'songbook-store.js',
   'styles.css',
   'sw.js',
   'travail-3.css',

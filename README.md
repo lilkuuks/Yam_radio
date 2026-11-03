@@ -17,6 +17,7 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **Responsive static design** — a dependency-free Node build copies the public site into `dist/client`.
 - **Travail 3.0** — official artwork, registration, event details and an overnight countdown at `/travailProgram`. Confirmed for 13–14 November 2026, 9 PM–6 AM GMT.
 - **YAM Minstrels songbook** — original song titles, expandable lyrics, and configurable purchase links.
+- **Browser song storage** — add, edit, hide, and delete songs in the admin panel. Songs and unfinished song forms remain in the same browser; download a JSON backup or import one to move songs. This does not publish songs to other visitors or synchronize across devices/domains.
 - **Admin publishing** — manage the service schedule, announcements, SMS drafts, and Minstrels songs locally or through Supabase.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
 

@@ -114,7 +114,8 @@
 .song-index::after { background: #d7cabd; content: ''; height: 1px; margin-left: 1rem; width: 56px; }
 .song-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 54px); font-weight: 400; letter-spacing: 0.02em; line-height: 0.95; margin: 2.2rem 0 0.5rem; }
 .song-byline { color: var(--muted); font-size: 12px; margin-bottom: 1.6rem; }
-.lyrics { font-family: Georgia, serif; font-size: 15px; font-style: italic; line-height: 1.8; max-height: 10.8em; overflow: hidden; position: relative; white-space: pre-line; }
+.lyrics { font-family: Georgia, serif; font-size: 15px; font-style: italic; line-height: 1.8; overflow-wrap: anywhere; position: relative; white-space: pre-line; }
+.lyrics.is-collapsed { max-height: 10.8em; overflow: hidden; }
 .lyrics.is-collapsed::after { background: linear-gradient(transparent, #f8f5f0); bottom: 0; content: ''; height: 5rem; left: 0; pointer-events: none; position: absolute; right: 0; }
 .song-card:nth-child(4n + 2) .lyrics.is-collapsed::after,
 .song-card:nth-child(4n + 3) .lyrics.is-collapsed::after { background: linear-gradient(transparent, #f2ebe2); }
@@ -127,6 +128,11 @@
 .buy-song[aria-disabled="true"] { background: #b7aba0; cursor: not-allowed; }
 .song-empty { padding: 5rem 1rem; text-align: center; }
 .song-empty > p:last-child { color: var(--muted); margin-top: 1rem; }
+.songbook-status { background: #f7f2ea; border: 1px solid #e7e0d7; border-radius: 8px; color: #68503a; font-size: 13px; line-height: 1.7; padding: 1rem; margin-bottom: 1.5rem; }
+.songbook-retry { background: var(--wine); border: 0; border-radius: 6px; color: #fff; cursor: pointer; padding: .8rem 1.1rem; margin-bottom: 1.5rem; }
+.songbook-status[hidden], .songbook-retry[hidden], .song-empty[hidden] { display: none; }
+.song-card h3, .song-byline, .song-price { overflow-wrap: anywhere; }
+.song-actions { flex-wrap: wrap; }
 
 .minstrels-cta { background: #2b2622; color: #fff; padding: 6rem clamp(1.5rem, 5vw, 5rem); text-align: center; }
 .minstrels-cta .section-kicker { color: #ddb47b; }

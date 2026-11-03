@@ -2,7 +2,9 @@
   'use strict';
 
   const STORAGE_KEY = 'yam-admin-drafts-v1';
-  const SONGS_KEY = 'yam-minstrels-songs-v1';
+  const songbook = window.YAM_SONGBOOK;
+  const SONGS_KEY = songbook.key;
+  const EDITOR_KEY = 'yam-minstrels-editor-v1';
   const LOCAL_SESSION_KEY = 'yam-local-admin-auth-v1';
   const config = window.YAM_CONFIG || {};
   const isConfigured = Boolean(config.supabaseUrl && config.supabasePublishableKey && window.supabase);
@@ -20,10 +22,15 @@
   };
 
   let drafts = { ...defaults, ...readJson(STORAGE_KEY, {}) };
-  const localSongs = readJson(SONGS_KEY, []);
-  let songs = Array.isArray(localSongs) ? localSongs : [];
+  let songs = [];
+  let libraryError = '';
+  if (!isConfigured) {
+    try { songs = songbook.readLocal(); } catch (error) { libraryError = error.message; }
+  }
+  let songSaving = false;
   let currentUser = null;
   let toastTimer;
+  const canPublish = () => Boolean(client && currentUser);
 
   const elements = {
     authGate: document.querySelector('#auth-gate'), loginForm: document.querySelector('#login-form'),
@@ -38,6 +45,8 @@
     announcement: document.querySelector('#announcement-text'), saveAnnouncement: document.querySelector('#save-announcement'),
     songCount: document.querySelector('#song-count'), songLibraryCount: document.querySelector('#song-library-count'),
     songList: document.querySelector('#admin-song-list'), songEmpty: document.querySelector('#admin-song-empty'),
+    storageStatus: document.querySelector('#song-storage-status'), songMessage: document.querySelector('#song-form-message'),
+    exportSongs: document.querySelector('#export-songs'), importSongs: document.querySelector('#import-songs'), importFile: document.querySelector('#song-import-file'),
     songForm: document.querySelector('#song-form'), songFormTitle: document.querySelector('#song-form-title'),
     songId: document.querySelector('#song-id'), songTitle: document.querySelector('#song-title'),
     songArtist: document.querySelector('#song-artist'), songPrice: document.querySelector('#song-price'),
@@ -122,11 +131,11 @@
   };
 
   const updateModeLabels = () => {
-    elements.saveService.textContent = currentUser ? 'Publish schedule' : 'Save locally';
-    elements.saveAnnouncement.textContent = currentUser ? 'Publish announcement' : 'Save draft';
+    elements.saveService.textContent = canPublish() ? 'Publish schedule' : 'Save locally';
+    elements.saveAnnouncement.textContent = canPublish() ? 'Publish announcement' : 'Save draft';
     elements.saveSong.textContent = elements.songId.value
-      ? (currentUser ? 'Update song' : 'Update locally')
-      : (currentUser ? 'Publish song' : 'Add song locally');
+      ? (canPublish() ? 'Update song' : 'Update locally')
+      : (canPublish() ? 'Publish song' : 'Add song locally');
     [elements.saveService, elements.saveAnnouncement, elements.saveSong].forEach((button) => delete button.dataset.label);
   };
 
@@ -144,7 +153,7 @@
   };
 
   const renderSongs = () => {
-    songs = [...songs].sort((a, b) => Number(a.display_order || 0) - Number(b.display_order || 0) || String(a.title).localeCompare(String(b.title)));
+    songs = songbook.sort(songs);
     const publishedCount = songs.filter((song) => song.published !== false).length;
     elements.songCount.textContent = `${publishedCount} song${publishedCount === 1 ? '' : 's'}`;
     elements.songLibraryCount.textContent = `${songs.length} song${songs.length === 1 ? '' : 's'}`;
@@ -153,7 +162,7 @@
       <article class="admin-song-item" data-song-id="${escapeHtml(song.id)}">
         <div class="admin-song-main"><div><strong>${escapeHtml(song.title)}</strong>
           <small>${escapeHtml(song.artist || 'YAM Minstrels')} · ${escapeHtml(song.price || 'No price')}</small></div>
-          <span class="song-state${song.published === false ? ' draft' : ''}">${song.published === false ? 'Draft' : 'Live'}</span></div>
+          <span class="song-state${song.published === false ? ' draft' : ''}">${song.published === false ? 'Draft' : (canPublish() ? 'Published' : 'On this browser')}</span></div>
         <div class="admin-song-actions"><button type="button" data-action="edit">Edit</button>
           <button class="delete-song" type="button" data-action="delete">Delete</button></div>
       </article>`).join('');
@@ -161,7 +170,7 @@
 
   const resetSongForm = () => {
     elements.songForm.reset(); elements.songId.value = ''; elements.songArtist.value = 'YAM Minstrels';
-    elements.songOrder.value = String(songs.length); elements.songPublished.checked = true;
+    elements.songOrder.value = String(Math.min(999, songs.length)); elements.songPublished.checked = true;
     elements.songFormTitle.textContent = 'Add a song'; elements.cancelSongEdit.hidden = true; updateModeLabels();
   };
 
@@ -173,6 +182,7 @@
     elements.songBuyUrl.value = song.buy_url || ''; elements.songOrder.value = String(song.display_order || 0);
     elements.songPublished.checked = song.published !== false; elements.songLyrics.value = song.lyrics || '';
     elements.songFormTitle.textContent = 'Edit song'; elements.cancelSongEdit.hidden = false; updateModeLabels();
+    saveSongEditor();
     elements.songForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
     elements.songTitle.focus({ preventScroll: true });
   };
@@ -195,7 +205,7 @@
       savedAt: settingsResult.data.reduce((latest, row) => !latest || row.updated_at > latest ? row.updated_at : latest, null) };
     if (!songsResult.error) songs = songsResult.data || [];
     else showToast('Run the latest Supabase migration to enable song publishing.');
-    renderDrafts(); renderSongs(); resetSongForm();
+    renderDrafts(); renderSongs(); resetSongForm(); updateStorageStatus(); restoreSongEditor();
   };
 
   const authorizeSession = async (session) => {
@@ -245,7 +255,7 @@
     if (!elements.serviceTime.value || !elements.timezone.value.trim()) return showToast('Add a service time and time zone.');
     drafts.serviceDay = elements.serviceDay.value; drafts.serviceTime = elements.serviceTime.value;
     drafts.timezone = elements.timezone.value.trim(); updateServicePreview();
-    if (!currentUser) return saveLocalDrafts('Service details saved on this device.');
+    if (!canPublish()) return saveLocalDrafts('Service details saved on this device.');
     setButtonBusy(elements.saveService, true, 'Publishing…');
     const { error } = await client.from('site_settings').upsert({ key: 'service_schedule',
       value: { day: drafts.serviceDay, time: drafts.serviceTime, timezone: drafts.timezone },
@@ -257,7 +267,7 @@
 
   elements.announcementForm.addEventListener('submit', async (event) => {
     event.preventDefault(); drafts.announcement = elements.announcement.value.trim();
-    if (!currentUser) return saveLocalDrafts('Announcement draft saved.');
+    if (!canPublish()) return saveLocalDrafts('Announcement draft saved.');
     setButtonBusy(elements.saveAnnouncement, true, 'Publishing…');
     const { error } = await client.from('site_settings').upsert({ key: 'announcement',
       value: { text: drafts.announcement, enabled: Boolean(drafts.announcement) },
@@ -268,53 +278,175 @@
     showToast(drafts.announcement ? 'Announcement published.' : 'Announcement removed.');
   });
 
-  elements.songForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); const id = elements.songId.value;
-    const song = { title: elements.songTitle.value.trim(), artist: elements.songArtist.value.trim() || 'YAM Minstrels',
-      price: elements.songPrice.value.trim(), buy_url: elements.songBuyUrl.value.trim(),
+  const showSongMessage = (message, error = false) => {
+    elements.songMessage.textContent = message;
+    elements.songMessage.hidden = !message;
+    elements.songMessage.classList.toggle('is-error', error);
+  };
+
+  const updateStorageStatus = () => {
+    elements.storageStatus.textContent = isConfigured
+      ? 'Shared song library. Sign in to publish changes.'
+      : 'Saved in this browser only. Songs are available on the Minstrels page in this browser. Download a backup to move them or protect against cleared browser data.';
+    if (libraryError) showSongMessage(libraryError + ' Download a backup of the saved data before restoring a valid backup.', true);
+  };
+
+  function readSongForm() {
+    return {
+      title: elements.songTitle.value, artist: elements.songArtist.value,
+      price: elements.songPrice.value, buy_url: elements.songBuyUrl.value,
       display_order: Number(elements.songOrder.value || 0), published: elements.songPublished.checked,
-      lyrics: elements.songLyrics.value.trim() };
-    if (!song.title || !song.lyrics) return showToast('A song title and lyrics are required.');
-    setButtonBusy(elements.saveSong, true, id ? 'Updating…' : 'Publishing…');
-    if (currentUser) {
-      const payload = { ...song, updated_by: currentUser.id, updated_at: new Date().toISOString() };
-      const query = id ? client.from('minstrel_songs').update(payload).eq('id', id).select().single()
-        : client.from('minstrel_songs').insert(payload).select().single();
-      const { data, error } = await query; setButtonBusy(elements.saveSong, false, '');
-      if (error) return showToast(error.message);
-      songs = id ? songs.map((item) => String(item.id) === String(id) ? data : item) : [...songs, data];
-      drafts.savedAt = new Date().toISOString(); updateSavedLabel(); renderSongs(); resetSongForm();
-      showToast(id ? 'Song updated on the website.' : 'Song published to the website.'); return;
+      lyrics: elements.songLyrics.value
+    };
+  }
+
+  function saveSongEditor() {
+    elements.cancelSongEdit.hidden = false;
+    try { localStorage.setItem(EDITOR_KEY, JSON.stringify({ ...readSongForm(), id: elements.songId.value })); }
+    catch (_) { showSongMessage('This browser could not keep an automatic form draft. Keep this tab open until your song is saved.', true); }
+  }
+
+  function clearSongEditor() {
+    try { localStorage.removeItem(EDITOR_KEY); } catch (_) { /* A completed save remains in the library. */ }
+  }
+
+  function restoreSongEditor() {
+    const draft = readJson(EDITOR_KEY, null);
+    if (!draft || typeof draft !== 'object' || (!draft.title && !draft.lyrics)) return;
+    elements.songId.value = typeof draft.id === 'string' ? draft.id : '';
+    elements.songTitle.value = draft.title || ''; elements.songArtist.value = draft.artist || 'YAM Minstrels';
+    elements.songPrice.value = draft.price || ''; elements.songBuyUrl.value = draft.buy_url || '';
+    elements.songOrder.value = String(draft.display_order || 0); elements.songLyrics.value = draft.lyrics || '';
+    elements.songPublished.checked = draft.published !== false;
+    elements.songFormTitle.textContent = elements.songId.value ? 'Edit song' : 'Add a song';
+    elements.cancelSongEdit.hidden = false;
+    updateModeLabels();
+    showSongMessage('Your unfinished song form has been restored.');
+  }
+
+  function requireSongAccess() {
+    if ((isConfigured || hasLocalAdmin) && !currentUser) throw new Error('Sign in before saving songs.');
+  }
+
+  function readCurrentLibrary() {
+    if (isConfigured) return songs;
+    if (libraryError) throw new Error('The saved song library could not be read. Download a backup before restoring valid songs.');
+    return songbook.readLocal();
+  }
+
+  elements.songForm.addEventListener('input', saveSongEditor);
+  elements.songForm.addEventListener('change', saveSongEditor);
+  elements.songForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (songSaving) return;
+    const id = elements.songId.value;
+    const submittedDraft = JSON.stringify({ ...readSongForm(), id });
+    let savedSongId = id;
+    songSaving = true; setButtonBusy(elements.saveSong, true, 'Saving…');
+    showSongMessage('');
+    try {
+      requireSongAccess();
+      const song = songbook.validateSong(readSongForm());
+      if (canPublish()) {
+        const payload = { ...song, updated_by: currentUser.id, updated_at: new Date().toISOString() };
+        const query = id ? client.from('minstrel_songs').update(payload).eq('id', id)
+          : client.from('minstrel_songs').insert(payload);
+        const { data, error } = await query.select(songbook.fields).single();
+        if (error) throw error;
+        savedSongId = String(data.id);
+        songs = id ? songs.map((item) => String(item.id) === id ? data : item) : [...songs, data];
+      } else {
+        const latest = readCurrentLibrary();
+        const original = latest.find((item) => item.id === id);
+        if (id && !original) throw new Error('This song was removed in another tab. Cancel this edit, then add it as a new song.');
+        const localSong = songbook.normalizeSong({ ...original, ...song, id: id || songbook.newId(), updated_at: new Date().toISOString() });
+        savedSongId = localSong.id;
+        const next = id ? latest.map((item) => item.id === id ? localSong : item) : [...latest, localSong];
+        songs = songbook.writeLocal(next);
+      }
+      renderSongs();
+      if (JSON.stringify({ ...readSongForm(), id: elements.songId.value }) === submittedDraft) {
+        clearSongEditor(); resetSongForm();
+      } else {
+        if (!id) elements.songId.value = savedSongId;
+        saveSongEditor();
+      }
+      showSongMessage(canPublish() ? 'Song saved to the shared library.' : 'Song saved in this browser. It will still be here when you reload.');
+    } catch (error) {
+      showSongMessage(error.message || 'Could not save the song. Your form has been kept.', true);
+    } finally {
+      setButtonBusy(elements.saveSong, false, ''); songSaving = false; updateModeLabels();
     }
-    const generatedId = window.crypto?.randomUUID ? window.crypto.randomUUID() : `local-${Date.now()}`;
-    const localSong = { ...song, id: id || generatedId };
-    songs = id ? songs.map((item) => String(item.id) === String(id) ? localSong : item) : [...songs, localSong];
-    localStorage.setItem(SONGS_KEY, JSON.stringify(songs)); setButtonBusy(elements.saveSong, false, '');
-    renderSongs(); resetSongForm(); showToast(id ? 'Song updated on this device.' : 'Song added to the Minstrels page on this device.');
   });
 
   elements.songList.addEventListener('click', async (event) => {
-    const button = event.target.closest('button[data-action]'); if (!button) return;
+    const button = event.target.closest('button[data-action]'); if (!button || songSaving) return;
     const id = button.closest('[data-song-id]')?.dataset.songId; if (!id) return;
     if (button.dataset.action === 'edit') return editSong(id);
-    const song = songs.find((entry) => String(entry.id) === String(id));
-    if (!song || !window.confirm(`Delete “${song.title}”? This cannot be undone.`)) return;
+    const song = songs.find((entry) => String(entry.id) === id);
+    if (!song || !window.confirm(`Delete “${song.title}” from ${canPublish() ? 'the shared library' : 'this browser'}?`)) return;
     button.disabled = true;
-    if (currentUser) {
-      const { error } = await client.from('minstrel_songs').delete().eq('id', id);
-      if (error) { button.disabled = false; showToast(error.message); return; }
-    }
-    songs = songs.filter((entry) => String(entry.id) !== String(id));
-    if (!currentUser) localStorage.setItem(SONGS_KEY, JSON.stringify(songs));
-    if (elements.songId.value === id) resetSongForm(); renderSongs(); showToast('Song deleted.');
+    try {
+      requireSongAccess();
+      if (canPublish()) {
+        const { error } = await client.from('minstrel_songs').delete().eq('id', id);
+        if (error) throw error;
+        songs = songs.filter((entry) => String(entry.id) !== id);
+      } else { songs = songbook.writeLocal(readCurrentLibrary().filter((entry) => entry.id !== id)); }
+      if (elements.songId.value === id) { clearSongEditor(); resetSongForm(); }
+      renderSongs(); showSongMessage('Song deleted.');
+    } catch (error) { button.disabled = false; showSongMessage(error.message || 'Could not delete the song.', true); }
   });
 
-  elements.cancelSongEdit.addEventListener('click', resetSongForm);
+  elements.cancelSongEdit.addEventListener('click', () => { clearSongEditor(); resetSongForm(); showSongMessage(''); });
+  elements.exportSongs.addEventListener('click', () => {
+    try {
+      requireSongAccess();
+      const data = !isConfigured && libraryError ? localStorage.getItem(SONGS_KEY)
+        : JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), songs: readCurrentLibrary() }, null, 2);
+      const url = URL.createObjectURL(new Blob([data || '[]'], { type: 'application/json' }));
+      const link = document.createElement('a'); link.href = url;
+      link.download = `YAM-Minstrels-Songbook-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showSongMessage('Songbook backup downloaded. Keep it somewhere safe.');
+    } catch (error) { showSongMessage(error.message || 'Could not export songs.', true); }
+  });
+  elements.importSongs.addEventListener('click', () => elements.importFile.click());
+  elements.importFile.addEventListener('change', async () => {
+    const file = elements.importFile.files[0]; if (!file || songSaving) return;
+    songSaving = true; elements.importSongs.disabled = true;
+    try {
+      requireSongAccess();
+      if (isConfigured) throw new Error('Backup import is available for browser storage. Shared publishing uses the song form.');
+      if (file.size > 5 * 1024 * 1024) throw new Error('Choose a backup smaller than 5 MB.');
+      const incoming = songbook.parse(await file.text());
+      if (!incoming.length) throw new Error('This backup contains no songs. Your current library has not been changed.');
+      let existing;
+      try { existing = readCurrentLibrary(); }
+      catch (error) {
+        if (!libraryError || !window.confirm('Restore this valid backup over the unreadable browser library? Download the old data first if you need to keep it.')) throw error;
+        existing = [];
+      }
+      const merged = new Map(existing.map((song) => [song.id, song]));
+      incoming.forEach((song) => merged.set(song.id, song));
+      songs = songbook.writeLocal([...merged.values()]); libraryError = '';
+      renderSongs(); updateStorageStatus();
+      showSongMessage(`Imported ${incoming.length} song${incoming.length === 1 ? '' : 's'} into this browser. Your other songs have been kept.`);
+    } catch (error) { showSongMessage(error.message || 'Could not import the backup. Your library has not been changed.', true); }
+    finally { elements.importFile.value = ''; elements.importSongs.disabled = false; songSaving = false; }
+  });
+  window.addEventListener('storage', (event) => {
+    if (isConfigured || event.key !== SONGS_KEY) return;
+    try { songs = songbook.readLocal(); libraryError = ''; renderSongs(); updateStorageStatus(); }
+    catch (error) { libraryError = error.message; updateStorageStatus(); }
+  });
+
   elements.smsMessage.addEventListener('input', updateMessageCount);
   elements.saveSms.addEventListener('click', async () => {
     drafts.smsAudience = elements.smsAudience.value; drafts.smsMessage = elements.smsMessage.value.trim();
     if (!drafts.smsMessage) { showToast('Write a message before saving the SMS draft.'); elements.smsMessage.focus(); return; }
-    if (!currentUser) return saveLocalDrafts('SMS draft saved on this device.');
+    if (!canPublish()) return saveLocalDrafts('SMS draft saved on this device.');
     setButtonBusy(elements.saveSms, true, 'Saving…');
     const { error } = await client.from('sms_drafts').insert({ audience: drafts.smsAudience, message: drafts.smsMessage, created_by: currentUser.id });
     setButtonBusy(elements.saveSms, false, ''); if (error) return showToast(error.message);
@@ -363,7 +495,7 @@
     document.querySelectorAll('.sidebar nav a').forEach((item) => item.classList.remove('active')); link.classList.add('active');
   }));
 
-  renderDrafts(); renderSongs(); resetSongForm();
+  renderDrafts(); renderSongs(); resetSongForm(); updateStorageStatus(); restoreSongEditor();
   if (!isConfigured) {
     if (hasLocalAdmin) {
       elements.loginHelp.textContent = 'Use the local administrator credentials configured for this site.';

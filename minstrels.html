@@ -51,6 +51,8 @@
         </div>
         <p>Every lyric is shared so you can carry the message beyond the music.</p>
       </div>
+      <p class="songbook-status" id="songbook-status" role="status" hidden></p>
+      <button class="songbook-retry" id="songbook-retry" type="button" hidden>Try again</button>
       <div class="song-grid" id="song-grid" aria-live="polite"></div>
       <div class="song-empty" id="song-empty" hidden>
         <p class="section-kicker">The songbook is growing</p>
@@ -78,6 +80,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js?v=20260816"></script>
+  <script src="songbook-store.js"></script>
   <script src="minstrels.js"></script>
 </body>
 </html>
