@@ -1,5 +1,5 @@
-const STATIC_CACHE = 'yam-static-v9-travail3';
-const RUNTIME_CACHE = 'yam-runtime-v3-travail3';
+const STATIC_CACHE = 'yam-static-v10-travail3';
+const RUNTIME_CACHE = 'yam-runtime-v4-travail3';
 const FONT_CACHE = 'yam-fonts-v1';
 const CURRENT_CACHES = new Set([STATIC_CACHE, RUNTIME_CACHE, FONT_CACHE]);
 

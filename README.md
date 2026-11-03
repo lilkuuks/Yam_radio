@@ -15,7 +15,7 @@ A single-page website for **YAM (Youth Alive Meets)**, a Christian youth fellows
 - **About / mission** section describing the fellowship and what members can expect.
 - **Animated waveform & live indicator** for a polished, on-air feel.
 - **Responsive static design** — a dependency-free Node build copies the public site into `dist/client`.
-- **Travail 3.0 event & program** — event details and an overnight countdown at `/travailProgram`. Confirmed for 13–14 November 2026, 9 PM–6 AM GMT; the full running order is pending.
+- **Travail 3.0** — official artwork, registration, event details and an overnight countdown at `/travailProgram`. Confirmed for 13–14 November 2026, 9 PM–6 AM GMT.
 - **YAM Minstrels songbook** — original song titles, expandable lyrics, and configurable purchase links.
 - **Admin publishing** — manage the service schedule, announcements, SMS drafts, and Minstrels songs locally or through Supabase.
 - Custom typography (Bebas Neue + DM Sans) and a warm, modern light theme.
@@ -29,7 +29,7 @@ radio_yam/
 ├── minstrels.html  # YAM Minstrels songs and lyrics
 ├── minstrels.css   # Songbook styling
 ├── minstrels.js    # Song loading and lyric expansion
-├── travailProgram/ # Travail 3.0 event and program route
+├── travailProgram/ # Travail 3.0 event details route
 ├── travail-program.css
 ├── travail-program.js
 ├── admin.html      # Protected content administration
